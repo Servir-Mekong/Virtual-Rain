@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+
+<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+<title>VIRTUAL RAIN AND STREAM GAUGE DATA SERVICE (VRSGS)</title>
+
+<link href="css/metro.css" rel="stylesheet">
+<link href="css/metro-icons.css" rel="stylesheet">
+<link href="css/metro-responsive.css" rel="stylesheet">
+<link href="css/metro-schemes.css" rel="stylesheet">
+<link href="css/docs.css" rel="stylesheet">
+<script src="js/jquery-2.1.3.min.js"></script>
+<script src="js/metro.js"></script>
+
+
+<script>
+    function showCharm(id){
+        var  charm = $("#"+id+"-charm").data("charm");
+        if (charm.element.data("opened") === true) {
+            charm.close();
+        } else {
+            charm.open();
+        }
+    }
+</script>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    line-height:0.8;
+  }
+  #map {
+    height: 100%;    
+  }
+
+label{
+
+font-size: 0.8em;
+}
+  
+.rotate {
+	top: 50%;
+	right: -50px;
+	/* Safari */
+	-webkit-transform: rotate(-90deg);	
+	/* Firefox */
+	-moz-transform: rotate(-90deg);	
+	/* IE */
+	-ms-transform: rotate(-90deg);	
+	/* Opera */
+	-o-transform: rotate(-90deg);	
+	/* Internet Explorer */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.round{
+	right:-150px;
+	font-size:1.0em;
+	border-radius: 25px;
+	border: 1px solid #ececec;
+	padding-top:10px;
+	width: 300px;
+	height: 100px;  
+	background-color: rgba(255,255,255,0.6);
+	text-align: center;
+	
+	-webkit-transition: 0.5s ease-in-out;
+    -moz-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
+}  
+.round:hover{
+	background-color: rgba(255,255,255,0.2);
+	font-size:1.0em;
+	right:-120px;
+	font-color:white;
+}
+
+li{
+float: left;
+list-style-type:none; 
+margin:0px 5px;
+}
+
+li:hover 
+{
+color:#780000;
+}
+
+.tabcontrol .frames .frame{
+padding:0px;
+}
+
+.grid{
+margin:0px;
+}
+
+
+
+</style>
+</head>
+<body>
+<div style="position: absolute; width: 100%; height: 40px; z-index: 11; top:0px; background-color: rgba(255,255,255,1);" id="topmenu">
+	<img style="float:left; margin: 5px 10px; display: inline; " border="0" src="images/usaid.png" height="30" width="102">
+	<img style="float:left; margin: 3px 10px; display: inline;" border="0" src="images/nasa.png" height="30" width="38">
+	<img border="0" src="images/servir.png" style="float:left; margin: 5px 30px; 10px 0; display: inline; height: 26px; width:184px;">
+	<h4 style=" float:left; display: inline; background-color: white; margin:5px 10px;">VIRTUAL RAIN AND STREAM GAUGE DATA SERVICE <strong>(VRSGS)</strong></h4>
+	<div style="float:right;">
+		<ol style="font-size:0.8em">
+			<li>ABOUT</li>
+			<li>HOW TO USE?</li>
+			<li>FEEDBACK</li>
+			<li>LOGIN</li>
+		</ol>
+	</div>
+</div>
+
+<div class="button rotate round" onclick="showCharm('right')" style="position: absolute; z-index: 10;" >BROWSEING MENU</div>
+<div style="position: absolute; width: 100%; height: 100%; z-index: 1" id="map">	
+</div>
+
+<div class="container page-content">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiMmxKbU_boOk0Egnf347D035p9N5qrKM&callback=initMap" async defer></script>
+<script>
+		  function initMap() {
+		    var map = new google.maps.Map(document.getElementById('map'), {
+		     zoom: 5,
+			streetViewControl: false,
+			//rotateControl: boolean,
+			//fullscreenControl: boolean,
+			
+		      center: {lat: 14.127352, lng: 103.9306175},  
+		      disableDefaultUI: true,
+		      mapTypeControl: true,
+		      mapTypeControlOptions: {
+		          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+		          position: google.maps.ControlPosition.BOTTOM_CENTER
+		      },
+		      zoomControl: true,
+		      zoomControlOptions: {
+		          position: google.maps.ControlPosition.LEFT_BOTTOM
+		      },
+		      scaleControl: true,
+		      streetViewControl: true,
+		      streetViewControlOptions: {
+		          position: google.maps.ControlPosition.LEFT_TOP
+		      },
+		      fullscreenControl: true
+		    });
+		  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiMmxKbU_boOk0Egnf347D035p9N5qrKM&callback=initMap">
+</script>
+<div style="width:500px; top:40px; background-color: rgba(255,255,255,0.9); color:black;" data-role="charm" data-position="right" id="right-charm">		
+
+<div class="tabcontrol" data-role="tabcontrol" data-save-state="true" id="tabcontrol_4">
+    <ul class="tabs">
+        <li><a href="#frame_4_1">Virtual Rain Gauge</a></li>
+        <li><a href="#frame_4_2">Virtual Stream Gaugw</a></li>
+    </ul>
+    <div class="frames bg-white" >
+        <div class="frame" id="frame_4_1"  >
+			<div class="panel" data-role="panel">
+			<div class="heading">
+			    <span style="padding-left:5px;" class="mif-location mif-2x"></span>
+			    <span class="title"><small>Select Area</small></span>
+			</div>
+			<div class="content"> 
+					<div class="grid">
+					        <div class="row cells1" style="margin-botton:0px;">
+					            <div class="cell">
+								<button class="button" style="width:100%"><span class="mif-checkmark"></span> Drawing custom Polygon</button>
+					            </div>
+					        </div>
+					        <div class="row cells1" style="margin-botton:0px;" >
+					            <div class="cell">
+					                <label>Choose feature from the map</label>
+								<div class="input-control select" style="width:100%">
+								    <select>
+								        <option>Country Boundary</option>
+								        <option>Admin Boundary</option>
+								        <option>River Basin</option>
+								    </select>
+								</div>
+					            </div>                    
+					        </div>
+					</div>
+			</div>
+			</div>
+			
+			<div class="panel" data-role="panel">
+			<div class="heading">
+			    <span style="padding-left:5px;" class="mif-satellite mif-2x"></span>
+			    <span class="title"><small>Select Data</small></span>
+			</div>
+
+					<div class="grid">
+					        <div class="row cells1" style="margin-botton:0px;">
+					            <div class="cell">
+					                <label>Data Source</label>
+								<div class="input-control select" style="width:100%;">
+								    <select>
+								        <option>GPM IMERG</option>
+								        <option>TRMM</option>
+								        <option>CHIRPS</option>
+								        <option>GSMap</option>
+								    </select>
+								</div>
+					            </div>                    
+					        </div>
+					        <div class="row cells1" style="margin-botton:0px;">
+					            <div class="cell">
+					                <label>Statistic</label>
+								<div class="input-control select" style="width:100%">
+								    <select>
+								        <option>Raw</option>
+								        <option>Average</option>
+								        <option>Max</option>
+								        <option>Min</option>
+								    </select>
+								</div>
+					            </div>                    
+					        </div><div class="row cells1" style="margin-botton:0px;">
+					            <div class="cell">
+					                <label>Scope</label>
+								<div class="input-control select" style="width:100%">
+								    <select>
+								        <option>Hourly</option>
+								        <option>Daily</option>
+								        <option>Monthly</option>
+								        <option>Annual</option>
+								    </select>
+								</div>
+					            </div>                    
+					        </div>
+					        <div class="row cells2" style="margin-botton:0px;">
+					            <div class="cell">
+								<label>Start Date</label>
+									<div class="input-control text" data-role="datepicker" data-format="mmmm d, yyyy">
+									<input type="text">
+									<button class="button"><span class="mif-calendar"></span></button>
+								</div>
+					            </div>   
+					            <div class="cell">
+					                <label>End Date</label>
+								<div class="input-control select" style="width:100%">
+								    <select>
+								        <option>Country Boundary</option>
+								        <option>Admin Boundary</option>
+								        <option>River Basin</option>
+								    </select>
+								</div>
+					            </div>                 
+					        </div>
+					</div>
+
+			</div>
+			
+			<div class="panel" data-role="panel">
+			<div class="heading">
+			     <span style="padding-left:5px;" class="mif-download mif-2x"></span>
+			    <span class="title"><small>Select Product/Export</small></span>
+			</div>
+
+					<div class="grid">
+					        <div class="row cells1" style="margin-botton:0px;">
+					            <div class="cell">
+								<button class="button" style="width:100%">Show Graph (Time Series)</button>
+					            </div>
+					        </div>
+					        <div class="row cells4" style="margin-botton:0px;">
+					            <div class="cell">
+								<button class="button" style="width:100%">GIF Animation</button>
+					            </div>
+					            <div class="cell">
+								<button class="button" style="width:100%">Map</button>
+					            </div>
+					            <div class="cell">
+								<button class="button" style="width:100%">CSV</button>
+					            </div>
+					            <div class="cell">
+								<button class="button" style="width:100%">NetCDF</button>
+					            </div>
+					        </div>
+					</div>
+					
+					<button class="button" style="width:100%">NEW SELECTION</button>
+
+			</div>
+        
+        </div>
+        <div class="frame" id="frame_4_2">
+        <button class="button" style="width:100%"><span class="mif-checkmark"></span> Show VGS location on the map</button>
+		<div class="panel" data-role="panel">
+			<div class="heading">
+			    <span style="padding-left:5px;" class="mif-location mif-2x"></span>
+			    <span class="title"><small>Select Gauge</small></span>
+			</div>
+			<div class="content ">
+
+
+            <div class="grid">
+                <div class="row cells1" style="margin-botton:0px;">
+                    <div class="cell">
+                        <label>Country</label>
+					<div class="input-control select" style="width:100%">
+					    <select>
+					        <option>Cambodia</option>
+					        <option>Laos</option>
+					        <option>Thailand</option>
+					        <option>Vietnam</option>
+					    </select>
+					</div>
+                    </div>
+                </div>
+                <div class="row cells1" style="margin-botton:0px;">
+                    <div class="cell">
+                        <label>Stream/Lake</label>
+					<div class="input-control select" style="width:100%">
+					    <select>
+					        <option>Chindwin</option>
+					        <option>...</option>
+					        <option>...</option>
+					        <option>...</option>
+					    </select>
+					</div>
+                    </div>
+                    
+                </div>
+                <div class="row cells1" style="margin-botton:0px;">
+                    <div class="cell">
+                        <label>Gauge</label>
+					<div class="input-control select" style="width:100%">
+					    <select>
+					        <option>VSG-1</option>
+					        <option>VSG-2</option>
+					        <option>VSG-3</option>
+					        <option>VSG-4</option>
+					        <option>VSG-5</option>
+					        <option>VSG-6</option>
+					        <option>VSG-7</option>
+					        <option>VSG-8</option>
+					        <option>VSG-9</option>
+					        <option>VSG-10</option>
+					        <option>VSG-11</option>
+					        <option>VSG-12</option>
+					        <option>VSG-14</option>
+					        <option>VSG-15</option>
+					        <option>VSG-16</option>
+					        <option>VSG-17</option>
+					        <option>VSG-18</option>
+					        <option>VSG-19</option>
+					        <option>VSG-20</option>
+					        <option>VSG-21</option>
+					        <option>VSG-22</option>
+					        <option>VSG-23</option>
+					        <option>VSG-24</option>
+					        <option>VSG-25</option>
+					        
+					    </select>
+					</div>
+                    </div>
+                </div>
+
+
+
+			</div>
+		</div>
+		<div class="panel" data-role="panel">
+			<div class="heading">
+			    <span style="padding-left:5px;" class="mif-location mif-2x"></span>
+			    <span class="title"><small>Select Data</small></span>
+			</div>
+			<div class="content ">
+			   <div class="cell">
+                        <label>Data Source</label>
+					<div class="input-control select" style="width:100%">
+					    <select>
+					        <option>Jason-2/3</option>
+					        <option>...</option>
+					        <option>...</option>
+					        <option>...</option>
+					    </select>
+					</div>
+                    </div>
+			</div>
+		</div>
+		<div class="panel" data-role="panel">
+			<div class="heading">
+			    <span style="padding-left:5px;" class="mif-location mif-2x"></span>
+			    <span class="title"><small>Select Product</small></span>
+			</div>
+			<div class="content ">
+			    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus lectus sit amet odio ullamcorper malesuada dignissim justo gravida.
+			</div>
+		</div>
+        
+        
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>
+</body>
+</html>

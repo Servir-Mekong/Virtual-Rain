@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+    <title>VIRTUAL RAIN AND STREAM GAUGE DATA SERVICE (VRSGS)</title>
+
+    <link href="css/metro.css" rel="stylesheet">
+    <link href="css/metro-icons.css" rel="stylesheet">
+    <link href="css/metro-responsive.css" rel="stylesheet">
+    <link href="css/metro-schemes.css" rel="stylesheet">
+
+    <link href="css/docs.css" rel="stylesheet">
+
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/metro.js"></script>
+
+
+
+
+    <script>
+        function showCharm(id){
+            var  charm = $("#"+id+"-charm").data("charm");
+            if (charm.element.data("opened") === true) {
+                charm.close();
+            } else {
+                charm.open();
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+
+
+
+    <div class="container page-content">
+    
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+    async defer></script>
+
+       
+
+        <div data-role="charm" data-position="top" id="top-charm"><h1 class="text-light">Top charm</h1></div>
+        <div data-role="charm" data-position="bottom" id="bottom-charm"><h1 class="text-light">Bottom charm</h1></div>
+        <div data-role="charm" data-position="left" id="left-charm"><h1 class="text-light">Left charm</h1></div>
+        <div data-role="charm" data-position="right" id="right-charm"><h1 class="text-light">Right charm</h1></div>
+
+        <div class="example" data-text="example">
+            <div class="padding20 align-center">
+                <button class="button" onclick="showCharm('left')">Left side</button>
+                <button class="button" onclick="showCharm('right')">Right side</button>
+                <button class="button" onclick="showCharm('top')">Top side</button>
+                <button class="button" onclick="showCharm('bottom')">Bottom side</button>
+            </div>
+        </div>
+
+    </div>
+
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:kml="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>WY.kml</name>
+  <StyleMap id="msn_ylw-pushpin">
+    <Pair>
+      <key>normal</key>
+      <styleUrl>#sn_ylw-pushpin</styleUrl>
+    </Pair>
+    <Pair>
+      <key>highlight</key>
+      <styleUrl>#sh_ylw-pushpin</styleUrl>
+    </Pair>
+  </StyleMap>
+  <Style id="sn_ylw-pushpin">
+    <LineStyle>
+      <color>ff1378fa</color>
+    </LineStyle>
+    <PolyStyle>
+      <color>590e87ff</color>
+    </PolyStyle>
+  </Style>
+  <Style id="sh_ylw-pushpin">
+    <LineStyle>
+      <color>ff1378fa</color>
+    </LineStyle>
+    <PolyStyle>
+      <color>590e87ff</color>
+    </PolyStyle>
+  </Style>
+  <Placemark>
+    <name>Wyoming(WY)</name>
+    <styleUrl>#msn_ylw-pushpin</styleUrl>
+    <Polygon>
+      <outerBoundaryIs>
+        <LinearRing>
+          <coordinates>
+            -111.010457,41.008982,0 -104.030274,41.028282,0 -104.031971,44.997245,0 -111.039384,45.011032,0 -111.010457,41.008982,0 
+          </coordinates>
+        </LinearRing>
+      </outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+</Document>
+</kml>

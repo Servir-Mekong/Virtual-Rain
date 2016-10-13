@@ -169,6 +169,7 @@ function stopTimer() {
 function cleanBeforeSendRequest() {
 // Matt: Not sure about this d3, but it removes cluster layer. 
 //    d3.select("svg").remove();
+    clearChart();
     uniqueid = "";
     progressForId=0;
 }
@@ -680,7 +681,7 @@ function openPolygonDialog() {
 }
 
 function clearChart() {
-    
+	if(chart) chart.svg.remove(); 
 }
 
 // Get Y Axis lookup list (TODO, move this to the server params)
@@ -799,7 +800,7 @@ function createChart(data){
 
     
     
-    var chart = new dimple.chart(svg, data);
+    chart = new dimple.chart(svg, data);
     chart.defaultColors = [
         new dimple.color("grey")
     ]; 
@@ -873,7 +874,8 @@ function createChart(data){
     //chart.axes[1]._min = 50;
     //y._min = 50;
     
-    y.tickFormat = ',.2f';
+    //y.tickFormat = ',.2f';
+    y.tickFormat = ',f';
     y.showGridlines = true;
     chart.addSeries(null, dimple.plot.area);
     

@@ -109,10 +109,10 @@ require([
 	connect,dom, on, query
 ) {
 	map = new Map("mapDiv", {
-		basemap: "streets",
-		center: [88.357568, 22.558854],
+		basemap: "topo", //"streets",
+		center: [101, 15],
 		//center: [31.15, 1.604],
-		zoom: 4
+		zoom: 6
 	});
 	
 /**
@@ -201,7 +201,7 @@ and write json code for layer ClimateServ call (show data in the polygon area).
 		  else    currentStringPolygon = currentStringPolygon + ',[' + value + ']'; 
 	  }
 	  currentStringPolygon = currentStringPolygon + ']]}';
-	  
+	  //currentLayer = "graphic";
 	  tb.deactivate();
 	}
 	
@@ -429,6 +429,7 @@ Location information is in Javascript file
 		renderer.addBreak(50, 1001, red);
 
 		clusterLayer.setRenderer(renderer);
+		clusterLayer.setVisibility(false);
 		map.addLayer(clusterLayer);
 
 // close the info window when the map is clicked
@@ -782,7 +783,7 @@ function hideAdminLayerExcept(which){
 
 function addCountryLayer(which) {
 //alert("add layer " + which);
-
+        tb.deactivate();
 	map.graphics.clear();
 	globalTheNewBase = "http://climateserv.servirglobal.net/cgi-bin/servirmap_102100?";
 	if(which == -1) { hideAdminLayers();  }//hideAdminLayerExcept(0); }
@@ -1204,14 +1205,27 @@ function loadGraphCombined(maximize, rangechanged) {
 
 
 
+function getMinValue(array) {
+	var min = 999999;
+	for (var i = 0; i < array.length; i++) {
+		for (var index in array[i]) {
+			var value = array[i][index];
+			if(value < min) { min = value; }
+		}
+	}
+	return min;
+}
+
 /**
 Create Chart using Data from querying database
 **/
-var myChart;
+//var myChart;
 function loadGraphCombinedOLD(maximize) {
 	$("#chartContainer").empty();
 
 	$(".loading").show();
+
+	var minValue = getMinValue(currentData);
 	var x;
 	var y1;
 	var y2;
@@ -1231,20 +1245,24 @@ function loadGraphCombinedOLD(maximize) {
 	//var dataType = "Streamflow";
 	var dataType = "Water Elevation";
 	myChart = new dimple.chart(svg, currentData);
+//	var c2 = new dimple.chart(svg, currentData);
 	if (maximize) {
 		myChart.setBounds(60, 30, width - 120, height - 125);
+//		c2.setBounds(60, 30, width - 120, height - 125);
 	}
 	else {
-		myChart.setBounds(60, 30, 180, 165);
+		myChart.setBounds(60, 30, 180, 140);
+//		c2.setBounds(60, 30, 180, 140);
 	}
 	x = myChart.addTimeAxis("x", "Date", "%m/%d/%Y", "%m/%d/%Y");
 	y1 = myChart.addMeasureAxis("y", "Value", " Meters above Sea Level");
+	y1.overrideMin=0.9*minValue;
         //y1 = myChart.addMeasureAxis("y", "Value", " in m3/s");
 	var series = myChart.addSeries(dataType, dimple.plot.line, [x, y1]);
 	series.getTooltipText = function (e) {
 
 		return [
-			"Water Elevation",//"Streamflow",
+			"Water Elevaton",//"Streamflow",
 			"Date: " + moment(e.x).format("MM/DD/YYYY"),
 			"Value: " + e.y + " meters"
 		];
@@ -1253,10 +1271,13 @@ function loadGraphCombinedOLD(maximize) {
 	/*I can assign color by type of data if needed */
 
 	myChart.assignColor(dataType, "#FABF8F");
-  
 	myChart.addLegend("100%", 0, 0, "auto", "Right");
 	myChart.draw();
 	y1.titleShape.text("Meters above Sea Level");
+
+//c2.addTimeAxis("x", "Date", "%m/%d/%Y", "%m/%d/%Y");
+//c2.addMeasureAxis("y", "Value", " Meters above Sea Level").hidden = true;
+//c2.draw();
 
 	if (numDaysInRange() > 7) {
 		$('.tick').each(function (i, obj) {
@@ -1326,15 +1347,19 @@ function setLegend() {
 Convert Json data to CSV data
 **/
 function ConvertToCSV(objArray) {
-	var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-	var str = '';
+	var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray
+        var str = 'Date,Height\r\n';
+        var mon = {'01':'Jan', '02':'Feb','03':'Mar', '04':'Apr','05':'May', '06':'Jun','07':'Jul', '08':'Aug','09':'Sep', '10':'Oct','11':'Nov', '12':'Dec' };
 
 	for (var i = 0; i < array.length; i++) {
 		var line = '';
 		for (var index in array[i]) {
 			if (line != '') line += ','
-
-			line += array[i][index];
+                        var value = array[i][index];
+                        if(typeof value === "string") {
+                                value = value.substring(3,5) +"-"+mon[value.substring(0,2)] + "-" + value.substring(6);
+                        }
+                        line += value; //array[i][index];
 		}
 
 		str += line + '\r\n';

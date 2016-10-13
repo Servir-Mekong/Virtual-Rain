@@ -75,7 +75,8 @@ var svg;
 var mouseX;
 var mouseY;
 var indicatorTimeout;
-
+var chart;
+var myChart;
 var myLayers = [];
 var theID;
 var clickdata; //for click highlight
@@ -251,7 +252,25 @@ function addKmlLayer(which){
 			if(firstValue > secondValue) { alert("Please Check Your Start Date. It Should Be Earlier Than The End Date!");}
 		}
 	}
+
+$(document).ready(function() {
+	
+	$('ul.tabs li').click(function(e) { 
+		if($(this).text() == "Virtual Stream Gauge") { clusterLayer.setVisibility(true); 
+			tb.deactivate(); map.graphics.clear(); 
+			if(currentLayer) { addCountryLayer(-1); } //var oldlayer = map.getLayer(currentLayer); oldlayer.setVisibility(false); hideAdminLayers(); map.graphics.clear(); tb.deactivate(); }
+		}else clusterLayer.setVisibility(false);
+	});
+});
+
 	</script>
+	<style>	
+.metro .tab-control .frame {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+	</style>
 </head>
 
 <body class="metro">
@@ -272,6 +291,7 @@ function addKmlLayer(which){
 			<ul class="element-menu place-right">
 				<li><a class="dropdown-toggle" href="#">About</a> </li>
 				<li><a class="dropdown-toggle" href="#">How to use?</a> </li>
+			        <li><a class="dropdown-toggle" target="_blank" href="ftp://downloader:Down0000@58.137.55.93">FTP</a> </li>
 				<li><a href="#" class="dropdown-toggle">Feedback</a> </li>
 				<li><a class="dropdown-toggle" href="#">Login</a> </li>
 			</ul>
@@ -286,7 +306,7 @@ function addKmlLayer(which){
 	
 
 <div id="mapDiv" style="position:relative; width:100%; height:100%; z-index: 1">		
-	<div id="mouseinfo" style="position:absolute; left:15px; bottom:15px; color:#000; z-index:50;background-color:white;"></div>
+	<div id="mouseinfo" style="position:absolute; left:50%; bottom:15px; color:#000; z-index:50;background-color:transparent;"></div>
 	
     <div class="tab-control place-left" data-role="tab-control" style="position: absolute;z-index:10;background-color:white;" >
 		<ul class="tabs">
@@ -552,13 +572,15 @@ function addKmlLayer(which){
             });
 
             function fixContentHeight(){
-                var viewHeight = $(window).height();
-                var header = $("div[data-role='header']:visible:visible");
-                var navbar = $("div[data-role='navbar']:visible:visible");
-                var content = $("div[data-role='content']:visible:visible");
-                var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight();
-                $('#map').height(contentHeight);
-                //map.updateSize();
+		var viewHeight = $(window).height();
+                var header = $(".navtop:visible:visible");
+                var navbar = $(".navmenu:visible:visible");
+                var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 10;
+                $('#mapDiv').height(contentHeight);
+		$('.tab-control').css('max-height', contentHeight - 120);
+		$('.frames').css('max-height', contentHeight - 155);
+		$('.frame').css('max-height', contentHeight - 155);
+
             }
 
             window.onload = function () { 
@@ -635,6 +657,7 @@ function addKmlLayer(which){
 </div>
 
 <script>
+/*
 $(document).ready(function(){
 
 });
@@ -810,7 +833,7 @@ $("#win5export").on('click', function(){
         }
     });
 });
-	
+*/	
 </script>
 
 </body>

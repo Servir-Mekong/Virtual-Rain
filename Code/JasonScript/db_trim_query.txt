@@ -1,0 +1,27 @@
+delete from vgs_height where id in (select id from (select id, row_number()  over (partition by location_id, height, datetime order by id) as rnum from vgs_height) t where t.rnum > 1);
+
+delete from vgs_height where id in (select id from vgs_height where height <0);
+delete from vgs_height where id in (select id from vgs_height where location_id = 1 and height > 30);
+delete from vgs_height where id in (select id from vgs_height where location_id = 2 and height > 30);
+delete from vgs_height where id in (select id from vgs_height where location_id = 3 and (height < 90 or height > 157));
+delete from vgs_height where id in (select id from vgs_height where location_id = 4 and (height > 4.5 or height < 2.0));
+delete from vgs_height where id in (select id from vgs_height where location_id = 5 and height > 150);
+delete from vgs_height where id in (select id from vgs_height where location_id = 6 and height > 8);
+delete from vgs_height where id in (select id from vgs_height where location_id = 7 and height > 7);
+delete from vgs_height where id in (select id from vgs_height where location_id = 8 and height > 10);
+delete from vgs_height where id in (select id from vgs_height where location_id = 9 and height > 130);
+
+delete from vgs_height where id in (select id from vgs_height where location_id = 10 and height > 5);
+delete from vgs_height where id in (select id from vgs_height where location_id = 11 and height > 5);
+delete from vgs_height where id in (select id from vgs_height where location_id = 12 and height > 5);
+delete from vgs_height where id in (select id from vgs_height where location_id = 13 and height > 25);
+
+delete from vgs_height where id in (select id from vgs_height where location_id = 14 and height >80);
+delete from vgs_height where id in (select id from vgs_height where location_id = 15 and height >200);
+delete from vgs_height where id in (select id from vgs_height where location_id = 16 and (height >240 or height <180));
+delete from vgs_height where id in (select id from vgs_height where location_id = 17 and (height >250 or height <150));
+delete from vgs_height where id in (select id from vgs_height where location_id = 18 and height >125);
+delete from vgs_height where id in (select id from vgs_height where location_id = 19 and (height >3.6 or height < 1.8));
+delete from vgs_height where id in (select id from vgs_height where location_id = 20 and (height >4.0 or height < 1.5));
+delete from vgs_height where id in (select id from vgs_height where location_id = 21 and (height >45 or height <18));
+delete from vgs_height where id in (select id from vgs_height where location_id=22 and (height >220 or height <205));

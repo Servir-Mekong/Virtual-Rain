@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="product" content>
+<meta name="keywords" content>
+<meta name="description" content>
+<meta name="author" content>
+<link href="css/metro-bootstrap.css" rel="stylesheet">
+<link href="css/metro-bootstrap-responsive.css" rel="stylesheet">
+<link href="css/iconFont.css" rel="stylesheet">
+<link href="css/docs.css" rel="stylesheet">
+<link href="js/prettify/prettify.css" rel="stylesheet">
+<!-- Load mCSS custom css for VRG -->
+<link href="css/mVRG.css" rel="stylesheet">
+
+    <link href="css/vis.css" rel="stylesheet" />
+    <link href="css/claro.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/daterangepicker.css" rel="stylesheet" />
+    <link href="js/jquery-ui.css" rel="stylesheet" />
+    <link href="css/jquery.jspanel.css" rel="stylesheet" />
+    <link href="css/tundra.css" />
+    <link href="css/shadowbox.css" rel="stylesheet" type="text/css" />
+    <link href="css/vicviewerstyles.css" rel="stylesheet" />
+
+	<!--
+	    <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.10.4.custom.css" />
+        <link rel="stylesheet" href="css/jquery.css" />
+        <link rel="stylesheet" href="css/ol.css" />
+        <link rel="stylesheet" href="css/red-glass/sidebar.css" />
+        <link rel="stylesheet" href="css/servir.css" />
+	-->	
+<style type="text/css">
+
+	img{
+	margin-top:40px;
+	margin-bottom:40px;
+	}
+	#chartContainer svg {
+	width: 240px;
+	}
+	
+	table{
+	margin-top:40px;
+	margin-bottom:40px;
+	border-style: solid;
+	border-color: #ececec #ececec;
+	width:80%;
+	}
+	
+	table {
+	border-collapse: collapse;
+	}
+	
+	table, td, th {
+	border: 1px solid black;
+	}
+	
+	td{
+	align:center !important;
+	}
+	
+	.hovered{
+	width:60vw;
+	}
+	
+	.hovered tr:nth-child(1){
+	line-height:50px;
+	}	
+	.hovered tr:nth-child(odd):hover{
+	background-color:#ececec;
+	}	
+	
+	.expansionrow {
+	    padding-top: 10px;
+	    cursor: pointer;
+	    width: 100%;
+	    height: 34px;
+	    text-align: center;
+	    
+	}
+	
+	#expansionimg {
+	    float: right;
+	}
+	
+	#expansiontxt {
+	    display: none;
+	}
+	
+	.iLogo{
+		height:100px;
+		display:block;
+	}
+	
+	.iBanner{
+		width:100%;
+		display:block;
+	}
+	.iPicture{
+	 width:60%;
+	 display:block;
+	 margin:10px auto;
+	}
+	
+	h5{
+	margin-top:50px !important;
+	}
+	
+	#menu {
+		position: fixed;
+		right: 0;
+		top: 50%;
+		width: 8em;
+		margin-top: -2.5em;
+	}
+	#menu ul li:hover{
+		background-color:#ececec;
+	}
+	
+	hr{
+	width:60%;
+	}
+
+	
+</style>
+	<script>
+        // helpful for understanding dojoConfig.packages vs. dojoConfig.paths:
+        // http://www.sitepen.com/blog/2013/06/20/dojo-faq-what-is-the-difference-packages-vs-paths-vs-aliases/
+        var dojoConfig = {
+            paths: {
+                extras: location.pathname.replace(/\/[^/]+$/, "") + "/extras"
+            }
+        };
+		
+		/*****************************Global varables****************************/
+var timeline;
+var theLatestTime = "";
+var globalTheNewBase;
+var globalrain;
+var jsonObj;
+var map;
+var earlyTime;
+var LastTime;
+var currentDate = "";
+var theDate;
+var onlyOne = true;
+var theDateString;
+var myChanger;
+var globalSpatialReference;
+var globalwebMercatorUtils;
+var total = [];
+var afteraddC;
+var photoInfo;
+var stationIDList = [];
+var globalwebMercator = [];
+var currentData = [];
+var currentLayer;
+var currentTimeSpan;
+var svg;
+var mouseX;
+var mouseY;
+var indicatorTimeout;
+var chart;
+var myChart;
+var myLayers = [];
+var theID;
+var clickdata; //for click highlight
+var anObject;  //for click highlight
+/*****************************Global objects****************************/
+var tb;
+var currentStringPolygon;
+var climateServLayerName;
+var climateServFeatureID;
+    </script>
+
+	
+		    <script src="js/libs/jquery/jquery.js"></script>
+        <script src="js/libs/d3/d3.min.js"></script>
+
+        <script src="js/libs/savefig/saveSvgAsPng.js"></script>
+        <script src="js/libs/jquery-sidebar/jquery.sidebar.js"></script>
+        <script src="js/servirnasa.js"></script>
+		
+    <!-- External libraries =============================================== -->
+	<!-- Load JavaScript Libraries -->
+	<script src="js/jquery/jquery.min.js"></script>
+	<script src="js/jquery/jquery.widget.min.js"></script>
+	<script src="js/jquery/jquery.mousewheel.js"></script>
+	<script src="js/prettify/prettify.js"></script>
+	<!-- Metro UI CSS JavaScript plugins -->
+	<script src="js/load-metro.js"></script>
+	<!-- Local JavaScript -->
+	<script src="js/docs.js"></script>
+
+   <!-- </script>-->
+    <script src="js/jquery.xml2json.js"></script>
+    <script src="js/mobiscroll.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/moment-range.js"></script>
+    <script src="js/daterangepicker.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/d3.v3.4.8.js"></script>
+    <script src="js/dimple.v2.2.0.min.js"></script>
+    <script src="js/shadowbox.js" type="text/javascript"></script>
+	<script src="js/vis.js"></script>
+    <script src="js/jquery.jspanel.js"></script>
+    <script src="data/stationList.js"></script>
+	
+	
+        <script src="js/libs/jquery-timer/jquery.timer.js"></script>
+		
+<title>VIRTUAL RAIN AND STREAM GAUGE DATA SERVICE (VRSGS)</title>
+
+<link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.17/"></script>
+	
+	<script src="main.js"></script>
+
+	<script>
+		//Upload KML to Server src="js/jquery/jquery.min.js"
+		$(function(){	
+
+			$("#drop-box").click(function(){
+				$("#upl").click();
+			});
+
+			// To prevent Browsers from opening the file when its dragged and dropped on to the page
+			$(document).on('drop dragover', function (e) {
+				e.preventDefault();
+			}); 
+
+			// Add events
+			$('input[type=file]').on('change', kmlUpload);
+
+			// File uploader function
+function addKmlLayer(which){
+	//alert("filename=" + which);
+	var kmlUrl = "http://localhost/kmluploads/" + which;
+	kmllayer = new KMLLayer(kmlUrl);
+	
+	kmllayer.setVisibility(false); kmllayer.refresh();
+
+}
+			function kmlUpload(event){  
+			//alert("startup");
+				var uploadFileName;
+				$("#drop-box").html("<p>"+event.target.value+" uploading...</p>");
+				files = event.target.files;
+				var data = new FormData();
+				var error = 0;
+				for (var i = 0; i < files.length; i++) {
+					var file = files[i];
+					uploadFileName = file.name;
+					//console.log(file.size);
+					//console.log(file.type);
+					//if(!file.type.match('application/vnd.google-earth.*')) {
+					if(!file.type.match('application/km*') && !file.type.match('application/vnd.google-earth.*')) {
+						$("#drop-box").html("<p> KML/KMZ only. Select another file</p>");
+						error = 1;
+						//console.log("error1");
+					}else if(file.size > 1048576){
+						$("#drop-box").html("<p> Too large Payload. Select another file</p>");
+						error = 1;
+						//console.log("error2");
+					}else{
+						data.append('image', file, file.name);
+						//console.log("added");
+					}
+				}
+				if(!error){
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', 'kmlupload.php', true);
+					xhr.send(data);
+					xhr.onload = function () {
+						if (xhr.status === 200) {
+							console.log("done");
+							$("#drop-box").html("<p> File Uploaded. Select more files</p>");
+							
+							addKmlLayer(uploadFileName);
+							
+						} else {
+							console.log("error");
+							$("#drop-box").html("<p> Error in upload, try again.</p>");
+						}
+					};
+				}
+			}
+
+		});
+
+
+	</script>
+
+	<script>
+	$(function() {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd
+		} 
+		if(mm<10){
+			mm='0'+mm
+		} 
+		var today = dd+'/'+mm+'/'+yyyy;
+		document.getElementById("datepickerend").value = today;
+	});
+	function checkDate() {
+		if($("#typemenu").val() == "IMERG1Day") {
+			var minValue = new Date("03/08/2015");
+			var maxValue = new Date("07/31/2016");
+			var firstValue = new Date($('#datepickerbegin').val());
+			var secondValue = new Date($('#datepickerbegin').val());
+			if(firstValue < minValue) { alert("Please Note: Data Start Date is 03/08/2015!");}
+			if(secondValue > maxValue) { alert("Please Note: Data End Date is 07/31/2016!");} 
+			if(firstValue > secondValue) { alert("Please Check Your Start Date. It Should Be Earlier Than The End Date!");}
+		}
+	}
+
+$(document).ready(function() {
+	
+	$('ul.tabs li').click(function(e) { 
+		if($(this).text() == "Virtual Stream Gauge") { clusterLayer.setVisibility(true); 
+			tb.deactivate(); map.graphics.clear(); 
+			if(currentLayer) { addCountryLayer(-1); } //var oldlayer = map.getLayer(currentLayer); oldlayer.setVisibility(false); hideAdminLayers(); map.graphics.clear(); tb.deactivate(); }
+		}else clusterLayer.setVisibility(false);
+	});
+});
+
+	</script>
+	<style>	
+.metro .tab-control .frame {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+	</style>
+</head>
+
+<body class="metro">
+
+
+
+    <div class="navtop navigation-bar white">
+		<div class="navigation-bar-content container">
+			<div class="mico usaid"></div><div class="mico nasa"></div><div class="mico adpc"></div><div class="mico servir"></div>
+		</div>
+	</div>
+	<div class="navmenu navigation-bar dark">
+		<div class="navigation-bar-content container">
+		<span class="element-divider"></span>
+			<a href="index.html" class="element"><strong>VIRTUAL RAIN AND STREAM GAUGE DATA SERVICE (VRSGS)</strong></a>
+			<span class="element-divider"></span>
+			<a class="element1 pull-menu" href="#"></a>
+			<ul class="element-menu place-right">
+				<li><a class="dropdown-toggle" href="about.html">About</a> </li>
+				<li><a class="dropdown-toggle" target="_blank" href="#">How to use?</a>
+
+
+				</li>
+			        <li><a class="dropdown-toggle" target="_blank" href="ftp://downloader:Down0000@58.137.55.93">FTP</a> </li>
+				<li>
+				<a class="dropdown-toggle" target="_blank" href="https://docs.google.com/forms/d/1eBW3cSvy5nnGHAQ6iN5xfTvGqSRZprJ1KbOoe7gEoEo/edit?usp=sharing">Feedback</a> </li>
+				<li><a class="dropdown-toggle" href="Login.html">Login</a> </li>
+			</ul>
+			<div class="no-tablet-portrait no-phone">
+				<!--<span class="element-divider place-right"></span>-->
+				<!--<div class="element place-right" title="GitHub Forks"><span class="icon-share-2"></span> <span class="github-forks">0</span></div>-->
+			</div>
+		</div>
+	</div>
+<div class="container">
+<div class="grid" style="margin-left:20px;">
+	<div class="row">
+	    	<div class="span12">
+	    		<h1>	Virtual Rain and Stream Gauge Data Service </h1>
+			<h3>Version 1.0</h3>
+			<h7>&copy; 2016, SERVIR Mekong</h7>
+    		</div>
+	</div>
+    <div class="row">
+		<div class="span8">
+			
+		
+		</div>
+        <div id="menu" class="span4">
+			<h3>Contents:</h3>
+			<ul>
+				<li><a href="#1">Introduction</a></li>
+				<li><a href="#2">Data Availability</a></li>
+				<li><a href="#3">Overview of Web Portal</a></li>
+				<li><a href="#4">Access Virtual Rain Data</a></li>
+				<li><a href="#5">Access Virtual Stream Gauge Data</a></li>
+				<li><a href="#6">FTP Access</a></li>
+				<li><a href="#7">Possible Applications</a></li>
+			</ul>
+        
+        </div>
+    </div>
+    
+ <!-- 1. intro -->   
+	
+<div class="row">
+<div class="span8">
+		<h3><a name="1"></a>1. Introduction</h3>
+	
+		<p>
+			Weather related disasters are becoming frequent due to increased number of floods and storms. During 1995-2015, about 47% 
+			of all weather related disasters affected 2.3 billion people and the majority (95%) of them were from Asia.  About 89% of the deaths due 
+			to storms were reported in lower and middle income courtiers even if they experienced about 26% of all storms (CRED and UNISDR, 2015). 
+			Therefore , virtual rain and stream gauge information service is designed and developed by SERVIR-Mekong program of 
+			Asian Disaster Preparedness Center (ADPC) to support effective decision making in Cambodia, Lao PDR, Myanmar, 
+			Thailand and Vietnam of the Mekong region.
+		</p>
+		<p>	<strong>
+			This service provides improved near real-time rainfall and stream height data products from publicly available satellite measurements by creation of 
+			a virtual network of rain gauges and stream gauges at points widely distributed over the entire Lower Mekong Region.
+			</strong>
+
+		</p>
+		<p>
+			The service leverages a wider range of ground measurements to ensure better calibration of satellite derived rainfall estimations 
+			(GPM-IMERG, TRMM, CMORPH, RFE2, GSMAP) and water elevation estimations (Jason-2/3, Sentinel-3 data products); Increased consistency 
+			and standardization of data formats available to end users; More convenient access to data products from the rainfall estimation missions and the 
+			altimetry profiling missions; Detailed guidance on using these valuable data streams for a variety of applications including now-casting, 
+			flood forecasting/warnings, water resource accounting/management and landslide early warnings/risk assessment/management, 
+			and river basin/reservoir management, transboundary river flow management, etc.
+		</p>	
+		<h5>Production Supported by:</h5>
+		<p class="tertiary-text">
+			<img border="0" src="http://www.adpc.net/Demo/about1.jpg" width="370" height="52"></div>
+        <div class="span4">
+        
+        </div>
+
+</div>
+<hr>
+
+<!-- /1.	intro -->  
+<!-- 2.		Data Availability-->
+<div class="row">
+<div class="span8">
+<h3>2<a name="2"></a>. Data Availability</h3>
+<h5>CHIRPS</h5>
+		<p>
+		<img class="iBanner" border="0" src="/images/CHIRPS.png">
+			Climate Hazards Group InfraRed Precipitation with Station data (CHIRPS) is a 30+ year quasi-global rainfall dataset. Spanning 50&deg;S-50&deg;N (and all longitudes),
+			starting in 1981 to near-present, CHIRPS incorporates 0.05&deg; resolution satellite imagery with in-situ station data to create gridded rainfall time series especially 
+			for trend analysis and seasonal drought monitoring. Currently version 2.0 of CHIRPS is available.
+			Virtual Rain and Stream Gauge Data Service allows users to make time series graphs and to download the data in .csv format for an area of
+			interest. It also allows the users to download region and country specific data in gridded format (NETCDF) for variety of applications
+		</p>	
+
+<h5>TRMM</h5>
+		<p>
+		<img class="iLogo" border="0" src="/images/TRMM.png">
+			The Tropical Rainfall Measuring Mission (TRMM) is a joint space mission between NASA and the Japan Aerospace Exploration Agency (JAXA) designed to monitor and study tropical rainfall. 
+			The term refers to both the mission itself and the satellite that the mission used to collect data. TRMM was part of NASA's Mission to Planet Earth, a long-term, 
+			coordinated research effort to study the Earth as a global system. The satellite was launched on November 27, 1997 and ended the mission by April 9, 2015. 
+			TRMM constellation of satellites provides 0.250 resolution rainfall data for every 3 hour time globally. 
+		</p>	
+		<p>
+			Daily frequency with 0.25&deg; spatial resolution TRMM rainfall data product which is available on the Virtual Rain and Stream Gauge Data Service 
+			allows users to download the region and country specific data in gridded format (NETCDF) for variety of applications. 
+			This data set has used monthly gauge data to calibrate it in global scale.
+		</p>		
+
+
+<h5>GPM-IMERG </h5>
+		<p>
+		<img class="iLogo"  border="0" src="/images/GPM-IMERG.png">
+			Integrated Multi-satellitE Retrievals for GPM (IMERG) data from the Global Precipitation Measurement (GPM) mission provide accurate global satellite 
+			observations of rain and snow. Launched on February 27, 2014, the GPM mission comprises an international network of satellites that are providing 
+			the next generation of global observations of rain and snow. Built upon the success of the widely-used TRMM Multi-satellite Precipitation Analysis (TMPA) products, 
+			the IMERG products continue to provide improvements in many areas such as spatial and temporal resolutions, snowfall estimates, etc., 
+			which will be valuable for research and applications
+		</p>	
+		<p>
+			Near real time 30 minutes frequency with 0.1&deg; spatial resolution IMERG rainfall data product which is available on the Virtual Rain and Stream Gauge Data Service 
+			allows users to make time series graphs and to download the data in .csv format for an area of interest. It also allows the users to download region and country 
+			specific data in gridded format (NETCDF) for variety of applications. The data products which are available here before the latest 
+			4 months have been used monthly gauge data to calibrate it in global scale. 
+		</p>	
+		
+<h5>Jason-2/3</h5>
+	
+<p>
+	<img class="iLogo"  border="0" src="/images/Jason.png" >
+			The Ocean Surface Topography Mission (OSTM) on the Jason-2 and 3 satellites are an international Earth observation satellite mission that continues the sea surface height 
+			measurements begun in 1992 by the joint NASA/CNES TOPEX/Poseidon mission and followed by the NASA/CNES Jason-1 
+			mission launched in 2001. It is now in a 1,336 km (830 mi) circular, non-sun-synchronous orbit at an inclination of 66 degrees to Earth's equator, 
+			allowing it to monitor 95 percent of Earth's ice-free ocean every 10 days. Space borne radar altimeters like Jason-2/3 have proven to be superb 
+			tools for mapping ocean-surface topography, the hills and valleys of the sea surface as well as streams, 
+			lakes and reservoirs water surfaces which are located over the ground. 
+			These instruments send a microwave pulse to the water surface and time how long it takes to return for measuring the water elevation. 
+			The OSTM/Jason-2/3 satellite flies on following a ground track network which is same ground-tracks followed by Jason-1 and the original T/P with a 254 passes, 
+			10-day exact repeat cycle. The water elevation measurements can only be taken over these passes and especially over the ground, 
+			the water body should be large enough (~ 1000 m width) to take any measurement. 
+			
+			<img class="iPicture" border="0" src="/images/Jason2.jpg">
+			<span class="captionM">Figure below is a plot of the ground track on a world map</span>
+			<img class="iPicture" border="0" src="/images/Jason3.png" >
+			<span class="captionM">The figure below shows ground tracks over Lower Mekong region and possible locations (Virtual Stream Gauges (VSGs)) over the water bodies for measuring its water elevation.</span>
+			<img class="iPicture" border="0" src="/images/Jason4.jpg" >
+			<span class="captionM">The following table is given the details of the possible Virtual Stream Gauge (VSG) locations over Lower Mekong region.</span>		
+<p>			
+			<table class="hovered">
+				<tr >
+					<td height="20" width="64" align="center" >
+					VSG_Name</td>
+					<td align="center">
+					Avg_Lon</td>
+					<td align="center">
+					Avg_Lat</td>
+					<td align="center">
+					Pass No</td>
+					<td align="center">
+					Stream</td>
+					<td align="center">
+					Country</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-1</td>
+					<td align="center" >
+					105.481</td>
+					<td align="center" >
+					12.011</td>
+					<td align="center" >
+					140</td>
+					<td align="center" >
+					Mekong River</td>
+					<td align="center" >
+					KH</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-2</td>
+					<td align="center" >
+					104.483</td>
+					<td align="center" >
+					12.515</td>
+					<td align="center" >
+					1</td>
+					<td align="center" >
+					Tonle Sap River</td>
+					<td align="center" >
+					KH</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-3</td>
+					<td align="center" >
+					103.94</td>
+					<td align="center" >
+					18.337</td>
+					<td align="center" >
+					179</td>
+					<td align="center" >
+					Mekong River</td>
+					<td align="center" >
+					LA/TH</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-4</td>
+					<td align="center" >
+					93.333</td>
+					<td align="center" >
+					20.1</td>
+					<td align="center" >
+					129</td>
+					<td align="center" >
+					Lemro River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-5</td>
+					<td align="center" >
+					94.532</td>
+					<td align="center" >
+					22.88</td>
+					<td align="center" >
+					129</td>
+					<td align="center" >
+					Chindwin River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-6</td>
+					<td align="center" >
+					97.602</td>
+					<td align="center" >
+					16.685</td>
+					<td align="center" >
+					27</td>
+					<td align="center" >
+					Thanlyin River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-7</td>
+					<td align="center" >
+					98.748</td>
+					<td align="center" >
+					12.341</td>
+					<td align="center" >
+					103</td>
+					<td align="center" >
+					Tanintharyi River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-8</td>
+					<td align="center" >
+					95.233</td>
+					<td align="center" >
+					16.509</td>
+					<td align="center" >
+					166</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-9</td>
+					<td align="center" >
+					94.776</td>
+					<td align="center" >
+					24.265</td>
+					<td align="center" >
+					242</td>
+					<td align="center" >
+					Chindwin River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-10</td>
+					<td align="center" >
+					94.575</td>
+					<td align="center" >
+					16.201</td>
+					<td align="center" >
+					205</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-11</td>
+					<td align="center" >
+					94.61</td>
+					<td align="center" >
+					16.29</td>
+					<td align="center" >
+					205</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-12</td>
+					<td align="center" >
+					94.685</td>
+					<td align="center" >
+					16.478</td>
+					<td align="center" >
+					205</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-13</td>
+					<td align="center" >
+					95.389</td>
+					<td align="center" >
+					18.223</td>
+					<td align="center" >
+					205</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-14</td>
+					<td align="center" >
+					95.822</td>
+					<td align="center" >
+					21.911</td>
+					<td align="center" >
+					242</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-15</td>
+					<td align="center" >
+					97.234</td>
+					<td align="center" >
+					25.09</td>
+					<td align="center" >
+					64</td>
+					<td align="center" >
+					Ayeyarwady River</td>
+					<td align="center" >
+					MM</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-16</td>
+					<td align="center" >
+					107.071</td>
+					<td align="center" >
+					11.864</td>
+					<td align="center" >
+					77</td>
+					<td align="center" >
+					Ho Thuy Dien Thac Mo</td>
+					<td align="center" >
+					VN</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-17</td>
+					<td align="center" >
+					107.111</td>
+					<td align="center" >
+					11.971</td>
+					<td align="center" >
+					77</td>
+					<td align="center" >
+					Ho Thuy Dien Thac Mo</td>
+					<td align="center" >
+					VN</td>
+				</tr>
+				<tr >
+					<td align="center" >
+					J2VSG-18</td>
+					<td align="center" >
+					104.699</td>
+					<td align="center" >
+					21.049</td>
+					<td align="center" >
+					216</td>
+		<td align="center" >
+		Da River</td>
+		<td align="center" >
+		VN</td>
+		</tr>
+		<tr >
+			<td align="center" >
+			J2VSG-19</td>
+			<td align="center" >
+			106.368</td>
+			<td align="center" >
+			9.985</td>
+			<td align="center" >
+			77</td>
+			<td align="center" >
+			Song Co Chien</td>
+			<td align="center" >
+			VN</td>
+		</tr>
+		<tr >
+			<td align="center" >
+			J2VSG-20</td>
+			<td align="center" >
+			106.415</td>
+			<td align="center" >
+			10.114</td>
+			<td align="center" >
+			77</td>
+			<td align="center" >
+			Song Co Chien</td>
+			<td align="center" >
+			VN</td>
+		</tr>
+		<tr >
+			<td align="center" >
+			J2VSG-21</td>
+			<td align="center" >
+			108.467</td>
+			<td align="center" >
+			15.489</td>
+			<td align="center" >
+			77</td>
+			<td align="center" >
+			Ho Phu Ninh</td>
+			<td align="center" >
+			VN</td>
+		</tr>
+		<tr >
+			<td align="center" >
+			J2VSG-22</td>
+			<td align="center" >
+			107.551</td>
+			<td align="center" >
+			14.013</td>
+			<td align="center" >
+			216</td>
+			<td align="center" >
+			Se San</td>
+			<td align="center" >
+			VN</td>
+		</tr>
+	</table>
+	The Virtual Rain and Stream Gauge Data Service allows users to make time series graphs over the virtual stream gauge locations and to download the data in .csv format for further analysis.	
+</p>			
+		
+
+		
+<h5>Summary of Data Availability	</h5>
+<p>
+	<img class="iBanner" border="0" src="/images/CHIRPS.png">
+</p>
+<table class="hovered">
+	<tr>
+		<td align="center" >
+		Source</td>
+		<td align="center">
+		Parameter</td>
+		<td align="center">
+		Unites</td>
+		<td align="center">
+		Spatial Res.</td>
+		<td align="center" >
+		Temporal Res.</td>
+		<td align="center" >
+		Data Availability</td>
+		<td align="center">
+		Latency</td>
+	</tr>
+	<tr>
+		<td align="center">
+		CHIRPS</td>
+		<td align="center" >
+		Rainfall</td>
+		<td align="center" >
+		mm</td>
+		<td align="center" >
+		0.1</td>
+		<td align="center">
+		Daily</td>
+		<td align="center">
+		1980 - date</td>
+		<td align="center" >
+		2 Months</td>
+	</tr>
+	<tr>
+		<td align="center">
+		TRMM</td>
+		<td align="center" >
+		Rainfall</td>
+		<td align="center" >
+		mm</td>
+		<td align="center" >
+		0.25</td>
+		<td align="center">
+		Daily</td>
+		<td align="center">
+		1998 - 2016</td>
+		<td align="center" >
+		-</td>
+	</tr>
+	<tr>
+		<td align="center">
+		GPM-IMERG</td>
+		<td align="center" >
+		Rainfall</td>
+		<td align="center" >
+		mm</td>
+		<td align="center" >
+		0.05</td>
+		<td align="center">
+		30 mins</td>
+		<td align="center">
+		2014 - date</td>
+		<td align="center" >
+		6 Hrs</td>
+	</tr>
+	<tr>
+		<td align="center">
+		Jason-2/3</td>
+		<td align="center" >
+		Water Elevation</td>
+		<td align="center" >
+		m</td>
+		<td align="center" >
+		-</td>
+		<td align="center">
+		10 Day</td>
+		<td align="center">
+		2008 - date</td>
+		<td align="center" >
+		2 Days</td>
+	</tr>
+</table>
+		
+	
+	</div>
+        <div class="span4">
+        
+        </div>
+</div>
+<hr>
+<!-- /2.	Data Availability-->   
+<!-- 3.		Overview of Web Portal-->
+<div class="row">
+<div class="span8">
+<h3>3.<a name="3"></a> Overview of Web Portal</h3>
+<h5>Features</h5>
+	
+	<ul>
+	<li>Easy access and display of:<ol type="a">
+		<li>Satellite derived rainfall data streams</li>
+		<li>Satellite derived water level estimations</li>
+	</ol>
+	</li>
+	<li>Single place for accessing all satellite derived rainfall data streams 
+	and water level estimations*</li>
+	<li>More convenient access to data products </li>
+	<li>Calibrated data streams*</li>
+	<li>Consistency and standardization of data formats</li>
+	<li>Custom areas of selections</li>
+	<li>Ability to upload user's interest areas</li>
+	<li>Ability to aggregate rainfall data</li>
+	<li>Generation of time-series charts, with regression lines*, and ability to 
+	resize charts.</li>
+	<li>Printable time-series charts and download the data in CSV format</li>
+	<li>Easy FTP access/ routing scripts </li>
+	<li>Country specific data products in NETCDF format</li>
+	<li>Small file sizes and fast downloading</li>
+	<li>Detailed guidance on using data streams for a variety of applications<p class="MsoListParagraph" style="text-align:justify">
+	<i>&nbsp;* Yet to be uploaded</i></li>
+	</ul>
+	<h5>Components of the user interface:</h5>
+	<img border="0" src="/images/3-1.png">
+	<h5>Description of the components:</h5>
+	<table class="hovered">
+		<tr>
+			<td style="width:50%" align="center">
+			<p><b>
+			<span >Component</span></b></td>
+			<td width="444" align="center" >
+			<p  align="center" style="text-align:center"><b>
+			<span >Purpose</span></b></td>
+		</tr>
+		<tr>
+			<td align="center" >
+			<p >Menu Bar</td>
+			<td align="center">
+			<p >Provides the access to specific menus such as 
+			How to use?, FTP, Login, etc.</td>
+		</tr>
+		<tr>
+			<td align="center">
+			<p >Map View</td>
+			<td align="center">
+			<p >Shows spatial maps/time series graphs above the 
+			base map layer </td>
+		</tr>
+		<tr>
+			<td align="center">
+			<p >Map View Controls</td>
+			<td align="center">
+			<p >Controls map view and the legend </td>
+		</tr>
+		<tr>
+			<td align="center" >
+			<p >Side Panel</td>
+			<td align="center">
+			<p >Controls the data being shown in the Map View</td>
+		</tr>
+	</table>
+&nbsp;<h5>Description of the components of Side Panel:</h5>
+	<table class="hovered">
+		<tr>
+			<td colspan="2" align="center">Component</td>
+			<td width="75%" align="center">Purpose</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">Virtual Rain Gauge</td>
+			<td width="75%" align="center">Provides the access to rainfall data streams</td>
+		</tr>
+		<tr>
+			<td width="5%" align="center">&nbsp;</td>
+			<td width="18%" align="center">Select Area</td>
+			<td width="75%" align="center">Allows to select the area of interest where desired to access 
+			rainfall data</td>
+		</tr>
+		<tr>
+			<td width="5%" align="center">&nbsp;</td>
+			<td width="18%" align="center">Select and Process Data</td>
+			<td width="75%" align="center">Allows to select data source, statistic, scope and time period 
+			to process the data</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">Virtual Stream Gauge</td>
+			<td width="75%" align="center">Provides the access to water elevation data for selected 
+			locations</td>
+		</tr>
+		<tr>
+			<td width="5%" align="center">&nbsp;</td>
+			<td width="18%" align="center">Select Gauge</td>
+			<td width="75%" align="center">Allows to select the country to show its Virtual Stream Gauge (VSG) 
+			locations</td>
+		</tr>
+		<tr>
+			<td width="5%" align="center">&nbsp;</td>
+			<td width="18%" align="center">Select Data</td>
+			<td width="75%" align="center">Allows to select altimetry satellite mission and time period to 
+			generate the data</td>
+		</tr>
+	</table>
+	<h5>Side Panel handling and Tooltips:</h5>
+	
+	
+	
+	
+</div>	
+<p>
+<img style="width:60%" border="0" src="/images/3-2.PNG">
+</p>
+</div>
+</div>
+<!-- /3.	Overview of Web Portal-->
+<!-- 4.		Access Virtual Rain Data-->
+<hr>
+<div class="row">
+<div class="span8">
+<h3>4<a name="4"></a>.Access Virtual Rain Data</h3>
+	<ol>
+		<li>To access rainfall data streams, click on &quot;Virtual Rain Gage&quot; tab on the side panel.<p>
+<img class="iPicture" border="0" src="/images/401.PNG"></p></li>
+		<li>Click on &quot;Select Area&quot; drop down menu to select the desired area to access rainfall data.
+
+ 
+
+		<p>
+<img  class="iPicture" border="0" src="/images/402.PNG"></p>
+		<ul>
+			<li>Select From Country Layer: Select according to the country boundary
+
+			</li>
+			<li>Select From Administrative Layer 1: Select according to the subdivisions such as provinces, states, changwat, khoueng and khet</li>
+			<li>Select From Administrative Layer 2: Select according to the further subdivisions to Administrative Layer 1 such as provincial cities, amphoe, kayaing, muang and srok</li>
+			<li>Close All Admin Layers: Clear all administrative layers and selections</li>
+			<li>Upload KML: Allows user to upload an area of interest in .kml format to select area. Ex: River basin boundary. User can use a tool like ArcGIS, QGIS to convert a .shp file format boundary to .kml format</li>
+			<li>Select Area by Drawing Polygon: Draw a custom polygon on the map view by clicking and dragging to select area. Double click to complete the polygon. Click on 
+			&quot;Close All Admin Layers&quot; button to clear the polygon</li>
+		</ul>
+		<p>
+<img  class="iPicture" border="0" src="/images/402a.PNG"></p></li>
+		<li>Select data Source, Statistic, Scope and Time Period to process the data.<p>
+		<img class="iPicture" border="0" src="/images/403.PNG"></p></li>
+		<li>Data Source: Select satellite derived rainfall data stream that you are willing to access. Currently two (2) data streams are available. i.e CHIRPS and GPM-IMERG. A few more data streams would be added to the next version of the tool.</li>
+		<li>Statistic: Select a statistical operation to process the data. Ex: Selecting max parameter means getting maximum gridded rainfall across the focused area. Currently 
+		&quot;Average&quot;, &quot;Max&quot; and &quot;Min&quot; operations are available.</li>
+		<li>Scope: Select the temporal scale to process the data. Currently &quot;Daily&quot; time scale is only available.</li>
+		<li>Time Period: Select desired time range that you want to access the data.</li>
+	<li>Get Data: Click here to view the data as a time series in line with your selections. It appears as below on the map view.<p>
+		<img  class="iPicture"  class="iPicture" border="0" src="/images/408.PNG"></p></li>
+		<li>Export Png: Click on this button to save the time series graph as an image.</li>
+	<li>Export to CSV: Click on this button to export the data as a .csv file. User can use this exported data for further analysis using MS Excel. 
+		<p style="margin-top:20px;">
+<strong >* Spatially visualizing near real time GPM-IMERG rainfall data products:</strong>
+
+		</p>
+
+<p>
+Click on the tick box related data product which is necessary to view on the map view. <br> 
+<img  class="iPicture" border="0" src="/images/4010.PNG">
+Ex: Click on the No 12 tick box to visualize the GPM-IMERG 1 day accumulated rainfall.
+<br>
+<img  class="iBanner"  border="0" src="/images/4010a.PNG">
+<span class="caption"><strong>Note:</strong>Click on the button which is denoted by circle 
+&quot;L&quot; to show the legend of the map.</span>
+<br>
+<img border="0" src="/images/4010b.PNG"></p> 
+		</li>
+		<li>IMERG 30Min Image Animation: Select here to view the spatial map of 
+		latest available 30min IMERG rainfall data product for latest 90Min as 
+		an animation.</li>
+		<li>IMERG 1Day Image: Select here to view the spatial map of latest 
+		available 1 day accumulated IMERG rainfall data product.</li>
+		<li>IMERG 3Day Image: Select here to view the spatial map of latest 
+		available 3 day accumulated IMERG rainfall data product.</li>
+		<li>IMERG 7Day Image: Select here to view the spatial map of latest 
+		available 7 day accumulated IMERG rainfall data product.</li>
+	</ol>
+	<p>
+	
+	<h4 style="margin-top:50px;">Technical Note:</h4>
+	<ul>
+	
+	<li>Example of Data Stacks:
+	
+	</li>
+	
+	<img style="width:80%" border="0" src="/images/howtou1.jpg">
+	
+	
+	<li>How to Calculate Statistics:
+	<p style="margin-left:20px;"><strong>Average</strong> function takes the average of all pixel values within the AOI. This is repeated for each Layer, from the start date to the end date.</p>
+	<p style="margin-left:20px;"><strong>Min and Max</strong> functions report the minimum and maximum pixel value within the AOI. This is repeated for each Layer, from the start date to the end date and may pull from a different pixel location within the AOI for each Layer or date.
+	<img border="0" src="/images/howtou3.jpg"><p style="margin-left:20px;">
+	The Result is a time-series graph, each point representing the statistic within the AOI of each Layer, for a particular Data stack.
+	</p>
+	<p style="margin-left:20px;">
+	<img style="height:200px;" border="0" src="/images/howtou4.jpg"></p>
+	
+	<p style="margin-left:20px;">
+	The resulting statistical data may be downloaded for further analysis.
+	</p>
+	
+	
+	</p>
+
+	
+	
+	</li>
+	<li>How Pixels are selected from AOI polygons
+	
+	<p style="margin-left:20px;">
+	Any pixel that intersects an AOI is selected for statistical analysis (e.g., average, min, mean).<br>
+	Pixel size (i.e., grid spacing or spatial resolution) varies by Data Stack (e.g., CHIRPS, IMERG, etc.).
+
+	</p>
+	<p style="margin-left:20px;">
+	<img style="height:300px;" border="0" src="/images/howtou5.jpg"></p>
+	
+	</li>
+	
+	</ul>
+
+</div>
+</div>
+<hr>
+<!-- /4.	Access Virtual Rain Data-->
+
+
+<!-- 5.		Access Virtual Stream Gauge Data-->
+<div class="row">
+<div class="span8">
+<h3>5. <a name="5"></a>Access Virtual Stream Gauge Data</h3>
+<ol>
+	<li>To access stream gauge data stream, click on &quot;Virtual Stream Gage&quot; tab on the side panel.
+
+ 
+
+<img class="iPicture" border="0" src="/images/501.PNG">When you click on the &quot;Virtual Stream Gage&quot; tab, the locations map of the virtual stream gauges, is being appeared on the map view.
+
+ 
+ 
+	<p>
+<img  border="0" src="/images/501a.PNG"></p>
+	<p>Note: Some locations is appeared with the numbers (ex: 4 and 5). It means that when you further zoom in the map to the location (ex: 4), it would appear 4 surrounding locations.
+	</p>
+	<p>
+<img class="iPicture" border="0" src="/images/501b.PNG"></p></li>
+	<li>Click on &quot;Select Gauge&quot; drop down menu to select the desired gauge location as per the country. Click on the desired country and then the map view will zoom in to the selected country. 
+
+
+ 
+
+<img class="iPicture" border="0" src="/images/502.PNG"></li>
+	<li>Select Data: Select altimetry satellite mission and time period to generate the data.
+	</li>
+	<li>Satellite: Select required altimetry satellite mission. Currently Jason-2/3 is only available.
+	</li>
+	<li>Select desired time period that you want to get the water elevation estimations.
+	</li>
+	<li>Click on the virtual stream gauge icon on the map view. Then, time series graph will appear on the map view.  
+
+ 
+
+<img class="iPicture" border="0" src="/images/506.PNG"> <span>For full view of the time series graph, click on the maximize button. </span>
+	<p><img border="0" src="/images/506a.PNG"></li>
+	<li>Move the mouse pointer over the graph to see the exact measurement of the elevation of water.
+
+	</li>
+	<li>Download CSV: Click on this button to export the data as a .csv file. User can use this exported data for further analysis using MS Excel. 
+	</li>
+</ol>
+
+</div>
+</div>
+<hr>
+<!-- /5.	Access Virtual Stream Gauge Data-->
+<!-- 6.		FTP Access-->
+<div class="row">
+<div class="span8">
+<h3>6. <a name="6"></a>FTP Access</h3>
+<p>The advance users such as meteorologists, climatologists, researches would be the beneficiaries of FTP service. User can access and download country specific data chunks in NETCDF format as well as small file size for advance tools and analysis such as hydrological modeling/tools, weather forecasting/tools, etc.
+</p>
+<p>
+<img border="0" src="/images/howtou6.jpg"></p>
+<ol>
+	<li>FTP: Click here to access the FTP server without access credentials.
+<br>
+	<img border="0" src="/images/howtou7.jpg"></li>
+	<li>There are two main directories in the server. i.e, Virtual Rain Gauge (VRG) which is contained rainfall data products and Virtual Stream Gauge (VSG) which is contained stream gauge data products.
+
+ 
+
+	<img border="0" src="/images/howtou8.jpg">For instance: </li>
+	<li>Click on VRG. Then it lists available sources of rainfall data streams. 
+	</li>
+	<li>Click on one of the data source. Then it lists the rainfall data directories as countries name.
+
+	<ul>
+		<li>KH-Cambodia</li>
+		<li>LA-Lao PDR</li>
+		<li>MM-Myanmar
+</li>
+		<li>TH-Thailand </li>
+		<li>VN-Vietnam </li>
+		<li>MK-Lower Mekong Region </li>
+		</ul>
+		</li>
+		<li>&nbsp;Click on the desired country name directory. Then it lists the data files.
+
+The users who need automatic downloads in regular manner, will be required to use a routing script 
+	</li>
+	</ol>
+
+</div>
+</div>
+<!-- /6.	FTP Access-->
+<!-- 7.		Possible Applications-->
+<hr>
+<div class="row">
+<div class="span8">
+<h3>7. <a name="7"></a>Possible Applications</h3>
+
+<ol>
+	<li>Weather Forecasting:
+ 
+
+<img border="0" src="/images/701.PNG"><ul>
+		<li>Visualizing and analyzing near real time and historical rainfall data using graphical user interface</li>
+		<li>Accessing and downloading data products for further visualization and analyzing using other tools
+		</li>
+	</ul>
+	</li>
+	<li>Drought Hazard Monitoring and Assessment:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img border="0" src="/images/702.PNG"><ul>
+		<li>Ability to calculate detailed (5, 10, 25 km res) drought indices such as SPI, SPEI, PDSI, SRI which needed rainfall data</li>
+		<li>Ability to use as input data for any other drought monitoring system
+		</li>
+	</ul>
+	</li>
+	<li>Landslide Hazard Assessment:
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img border="0" src="/images/703.PNG"><ul>
+		<li>Calculating cumulative rainfalls and issuing early warnings</li>
+		<li>Developing Cumulative Thresholds (CT) curves </li>
+	</ul>
+	</li>
+	<li>Water Management:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<ul>
+		<li>Long term trend analysis <img border="0" src="/images/704.PNG"></li>
+		<li>Reservoir/Lake outflow estimations </li>
+	</ul>
+	</li>
+	<li>Flood Modeling and Risk Assessment: <img border="0" src="/images/705.PNG"><ul>
+		<li>Modelling (Lump and distributed): Area averages and gridded rainfall available</li>
+		<li>Flood risk assessments </li>
+	</ul>
+	</li>
+</ol>
+
+
+</div>
+</div>
+<!-- /7.	Possible Applications-->
+<hr>
+
+</div>
+ </div>   
+	
+	<script type="text/javascript">
+            var selectedFeatures =[];
+            var selectedLayer =0;
+            var wmsbaseURL = "http://localhost/";
+            var polygonIsDefined = false;
+            var centerOfMap = [0.0, 0];
+            var zoomLevel = 3;
+            var clickEnabled = false;
+            var currentStringPolygon = "";
+
+            var tileLayers = [];
+            var hLayers = [];
+            var layerNames = [];
+            var layerIds = [];
+            var showLabel = false;
+            var hLayerURL=baseWMSurl+'&SERVICE=WMS&VERSION=1.1.1';
+ 
+			getParameterTypes();
+ 
+            //If a user wants to load a GeoJSON file this handles the file selection.
+            function handleFileSelect(evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+                var f = evt.dataTransfer.files[0]; // FileList object.
+
+                // files is a FileList of File objects. List some properties.
+
+                var reader = new FileReader();
+                // Closure to capture the file information.
+                reader.onload = (function (f) {
+                    return function (e) {
+                        setPolygonWithGeoJSON(e.target.result);
+                        $("#loadGeoJsonDialog").dialog("close");
+                    };
+                })(f);
+                reader.readAsText(f);
+            }
+
+            //Function to handle drag and drop.
+            function handleDragOver(evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+            }
+
+            //Setup of initial dialogs and closes or opens them based on initial state.
+            $(function () 
+            {
+
+           
+                $("#progressdialog").dialog();
+                $("#progressdialog").dialog("close");
+                $("#chartdialog").dialog();
+                $("#chartdialog").dialog("close");
+
+                $("#loadGeoJsonDialog").dialog();
+                $("#loadGeoJsonDialog").dialog("close");
+
+                $("#cancelbutton").click(function () {
+                    closeNewEditorDialog();
+                });
+
+                //Setup the drop zone for the geojson
+                
+            });
+
+            function fixContentHeight(){
+		var viewHeight = $(window).height();
+                var header = $(".navtop:visible:visible");
+                var navbar = $(".navmenu:visible:visible");
+                var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 10;
+                $('#mapDiv').height(contentHeight);
+		$('.tab-control').css('max-height', contentHeight - 120);
+		$('.frames').css('max-height', contentHeight - 155);
+		$('.frame').css('max-height', contentHeight - 155);
+
+            }
+
+            window.onload = function () { 
+                fixContentHeight();
+                setPolygonIsDefined(false);
+                var dropZone = document.getElementById('drop_zone');
+                dropZone.addEventListener('dragover', handleDragOver, false);
+                dropZone.addEventListener('drop', handleFileSelect, false);
+               
+            }
+            window.onresize = function(event) {
+                  fixContentHeight();
+            };
+            
+           function setPolygonIsDefined(value) {
+               
+               polygonIsDefined = value;
+               if (polygonIsDefined === false) {
+                   disableCreateGraphLink();
+                   closeNewEditorDialog();
+                   $("#geometry_edit_button").text("Create Location");
+               } else {
+                   enableCreateGraphLink();
+                   zoomToPolygon();
+                   $("#geometry_edit_button").text("Modify Location");
+               }
+                
+            }
+            
+            
+            
+            function disableCreateGraphLink() {
+                $('#creategraphlink').addClass('disabled');
+            }
+            function enableCreateGraphLink() {
+                $('#creategraphlink').removeClass('disabled');
+            }
+            
+        </script>
+	<div id="chartdialog" title="Results">
+            <div id="chartWindow"></div>
+	</div>
+		
+	<div id="progressdialog" title="Progress">
+            <div id="progressbar"></div>
+            <div id="progresslabel"></div>
+            <div id="requestId"></div>
+            <div id="downloadFileURL"></div>
+<!--        <div id="pauseRequestButton"><a href ="pause" ><img src="">Pause</a></div>
+            <div id="unpauseRequestButton"><a href ="start" ><img src="">Start</a></div>
+            <div id="cancelButton"><a href= "cancel" ><img src="">Cancel</a></div>-->
+        </div>
+		
+
+
+        <div id="loadGeoJsonDialog" style="clear:both;">
+            <div class = "stitched_drop" style="width:'92%'; height:100px" id="drop_zone"></div>
+        </div>	
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	<div id="visualization" style="display: table-cell; width:100%; display:none;"></div>
+    <div id="log" style="position:absolute; top:100px; left:100px; display:none;"></div>
+    <div class="loading">Loading&#8230;;;;<br /></div>
+    <div class="loadingmessage">You have selected a large date range the query will take several seconds.</div>
+    <div class="hidden" id="downloadlinkholder"><a id="lnkjsondownload" download="data.json" href="#" style="float:right;">Download json</a></div>
+	<div class="hidden" id="csvdownloadlinkholder"><a id="lnkcsvdownload" download="data.csv" href="#" >Download csv</a><p>|</p></div>
+</div>
+
+<script>
+/*
+$(document).ready(function(){
+
+});
+
+$("#win1").on('click', function(){
+    $.Dialog({
+        overlay: true,
+        shadow: true,
+        flat: true,
+        width:800,
+        icon: '<span class="icon icon-fullscreen-exit-alt"></span>',
+        title: 'Select area ',
+        content: '',
+        onShow: function(_dialog){
+            var content = _dialog.children('.content');
+            content.html(''+  
+	'<div class="content mform">'+
+		'<div class="grid">'+
+			'<div class="row">'+
+				'<div class="span3">'+
+					'<label>Country</label>'+
+					'<div class="input-control select">'+
+						'<select>'+
+						'<option value="Cambodia">Cambodia</option>'+
+						'<option value="Lao PDR">Lao PDR</option>'+						
+						'<option value="Myanmar">Myanmar</option>'+
+						'<option value="Thailand">Thailand</option>'+
+						'<option value="Vietnam">Vietnam</option>'+
+						'</select> </div>'+
+				'</div>'+
+				'<div class="span3">'+
+					'<label>Administrate Level 1</label>'+
+					'<div class="input-control select">'+
+						'<select>'+
+						'<option>Value 1</option>'+
+						'<option>Value 2</option>'+
+						'<option>Value 3</option>'+
+						'</select> </div>'+
+				'</div>'+
+				'<div class="span3">'+
+					'<label>Administrate Level 2</label>'+
+					'<div class="input-control select">'+
+						'<select>'+
+						'<option>Value 1</option>'+
+						'<option>Value 2</option>'+
+						'<option>Value 3</option>'+
+						'</select> </div>'+
+				'</div>'+
+			'</div>'+
+		'</div>'+
+	'</div>');
+        }
+    });
+});
+
+
+$("#win2kml").on('click', function(){
+    $.Dialog({
+        overlay: true,
+        shadow: true,
+        flat: true,
+        width:800,
+        icon: '<span class="icon  icon-upload"></span>',
+        title: 'Upload KML',
+        content: '',
+        onShow: function(_dialog){
+            var content = _dialog.children('.content');
+            content.html(''+
+			'<form>'+
+				'<div class="content mform">'+
+					'<div class="grid">'+
+						'<div class="row">'+
+							'<div class="span9">'+
+								'<label>Select KML file</label>'+
+							'<div class="input-control file info-state" data-role="input-control">'+
+                                       ' <input type="file">'+
+                                        '<button class="btn-file"></button>'+
+                                  '  </div>'+
+							'</div>'+
+						'</div>'+
+						'<input type="submit" value="Upload"> </div>'+
+				'</div>'+
+			'</form>');
+        }
+    });
+});
+
+$("#win3drawmap").on('click', function(){
+    $.Dialog({
+        overlay: true,
+        shadow: true,
+        flat: true,
+        width:800,
+        icon: '<span class="icon icon-pencil"></span>',
+        title: 'Specify an area by drawing on the map',
+        content: '',
+        onShow: function(_dialog){
+            var content = _dialog.children('.content');
+            content.html(''+
+				'<form>'+
+					'<div class="content mform">'+
+						'<div class="grid">'+
+							'<div class="row">'+
+								'<p>....... </p>'+
+							'</div>'+
+							'<input type="submit" value="Draw"> </div>'+
+					'</div>'+
+				'</form>');
+        }
+    });
+});
+$("#win4export").on('click', function(){
+    $.Dialog({
+        overlay: true,
+        shadow: true,
+        flat: true,
+        width:800,
+        icon: '<span class="icon icon-exit"></span>',
+        title: 'Export',
+        content: '',
+        onShow: function(_dialog){
+            var content = _dialog.children('.content');
+            content.html(''+
+			'<h4>Chart title</h4>'+
+			'<div class="grid">'+
+				'<div class="row">'+
+					'<div class="span12">'+
+						'<div id="chart">'+
+						'</div>'+
+					'</div>'+
+				'</div>'+
+				'<div class="row">'+
+						'<input type="submit" value="EXPORT PNG"> '+
+						'<input type="submit" value="EXPORT CSV"> '+
+						'<input type="submit" value="CLOSE">'+
+				'</div>'+
+			'</div>');
+        }
+    });
+});
+
+$("#win5export").on('click', function(){
+    $.Dialog({
+        overlay: true,
+        shadow: true,
+        flat: true,
+        width:800,
+        icon: '<span class="icon icon-exit"></span>',
+        title: 'Export',
+        content: function(){$(".loading").show();
+                    $("#chartContainer").empty();
+                    setTimeout(function () {
+                        loadGraphCombinedOLD(maximize);
+                    }, 250);},
+        onShow: function(_dialog){
+            var content = _dialog.children('.content');
+            content.html(''+
+			'<h4>Chart title</h4>'+
+			'<div class="grid">'+
+				'<div class="row">'+
+					'<div class="span12">'+
+						'<div id="chart">'+
+						'</div>'+
+					'</div>'+
+					'<div class="span2">'+
+						'<input type="submit" value="EXPORT PNG"> </div>'+
+					'<div class="span2">'+
+						'<input type="submit" value="EXPORT CSV"> </div>'+
+					'<div class="span2">'+
+						'<input type="submit" value="CLOSE"> </div>'+
+				'</div>'+
+			'</div>');
+        }
+    });
+});
+*/	
+</script>
+
+</body>
+
+</html>	

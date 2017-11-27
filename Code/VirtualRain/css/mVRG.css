@@ -26,11 +26,20 @@ background-size: auto 50px;
 width:100px !important;
 }
 .servir{
-float:right;
+float:left;
 background: url("https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png") no-repeat center; 
 background-size: auto 35px;
 width:250px !important;
 }
+    @media (min-width: 700px)  {
+       .servir{
+            float:right;
+            background: url("https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png") no-repeat center; 
+            background-size: auto 35px;
+            width:250px !important;
+            }
+              }
+
 
 .navigation-bar-content{
 	background: url("https://servir.adpc.net/themes/svmk/images/optimized/satellite-inside.png") ; 

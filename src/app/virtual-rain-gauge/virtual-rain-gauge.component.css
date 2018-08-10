@@ -1,0 +1,31 @@
+.mat-expansion-panel-header {
+  background-color: #eeeeee;
+}
+
+.mat-expansion-panel {
+  margin-bottom: 8px;
+}
+
+fieldset.standard {
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 5px;
+}
+
+fieldset.standard legend {
+  color: #3F51B5;
+}
+
+fieldset.standard legend code {
+  color: #3F51B5;
+  font-weight: normal;
+}
+
+.navbar-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.navbar-radio-button {
+  margin: 5px;
+}

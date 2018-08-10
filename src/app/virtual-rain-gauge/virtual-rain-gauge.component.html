@@ -1,0 +1,109 @@
+<div class="navbar-tab-content">
+  <mat-accordion>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Select Area
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-divider></mat-divider>
+
+      <fieldset class="standard">
+        <legend>Admin. Layers</legend>
+        <div>
+            <mat-radio-group class="navbar-radio-group" [(ngModel)]="selectedArea" (change)="adminLayerChange($event)">
+              <mat-radio-button class="navbar-radio-button" *ngFor="let area of areas" [value]="area.value">
+                {{ area.viewValue }}
+              </mat-radio-button>
+            </mat-radio-group>
+        </div>
+      </fieldset>
+      <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+
+      <legend style="text-align: center;">Upload KML</legend>
+      <app-file-upload (complete)="onFileComplete($event)"></app-file-upload>
+      <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+
+      <button mat-raised-button color="primary" style="width: 100%;">
+        Draw Area <mat-icon>edit</mat-icon>
+      </button>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Select and Process Data
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+
+      <form style="display: flex; flex-direction: column;">
+        <mat-form-field>
+          <mat-select placeholder="Data Source">
+            <mat-option *ngFor="let data of dataSources" [value]="data.value">
+              {{ data.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+
+        <mat-form-field>
+          <mat-select placeholder="Statistic">
+            <mat-option *ngFor="let statistic of statistics" [value]="statistic.value">
+              {{ statistic.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+
+        <mat-form-field>
+          <mat-select placeholder="Scope">
+            <mat-option *ngFor="let scope of scopes" [value]="scope.value">
+              {{ scope.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="startDate" placeholder="Start Date">
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="endDate" placeholder="End Date">
+          <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+          <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+        <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
+      </form>
+
+      <button mat-raised-button color="primary" style="width: 100%;">
+        Get Data <mat-icon>get_app</mat-icon>
+      </button>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Animation
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-divider></mat-divider>
+
+      <fieldset class="standard">
+        <legend>Data Source</legend>
+        <div>
+            <mat-radio-group class="navbar-radio-group" [(ngModel)]="selectedAnimationOption" (change)="animationOptionChange($event)">
+              <mat-radio-button class="navbar-radio-button" *ngFor="let animationOption of animationOptions" [value]="animationOption.value">
+                {{ animationOption.viewValue }}
+              </mat-radio-button>
+            </mat-radio-group>
+        </div>
+      </fieldset>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</div>

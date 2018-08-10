@@ -1,0 +1,6 @@
+<div class="flex-container flex-direction-column" style="height: 100%; width: 100%;">
+  <div class="flex-container fill-remaining-space" style="height: auto;" #map></div>
+  <app-time-slider *ngIf="showSlider" [mapView$]="mapView$" [map$]="map$"></app-time-slider>
+  <!--<app-time-slider class="flex-container" style="flex: 0 0 180px;"></app-time-slider>-->
+</div>
+<!--<app-draw-toolbar [mapView$]="mapView$" [map$]="map$"></app-draw-toolbar>-->

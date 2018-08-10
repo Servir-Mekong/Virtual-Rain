@@ -1,0 +1,16 @@
+<div id="sliderContainer" class="esri-widget flex-container">
+  <span id="sliderValue">{{ sliderDisplayText }}</span>
+  <div id="sliderInnerContainer">
+    <div id="sliderLabels">
+      <span>Day 1</span>
+      <span>Day 7</span>
+    </div>
+    <div id="rangeWrapper">
+      <mat-slider id="slider" [max]="7" [min]="1" [step]="1" [(ngModel)]="sliderValue"></mat-slider>
+    </div>
+  </div>
+  <div id="playButton" class="esri-widget esri-widget--button toggle-button" (click)="clickPlayButton($event)">
+    <div><span class="toggle-button-icon esri-icon-play" aria-label="play icon"></span>Play</div>
+    <div><span class="toggle-button-icon esri-icon-pause" aria-label="pause icon"></span>Pause</div>
+  </div>
+</div>

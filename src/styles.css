@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.flex-container {
+  display: flex;
+  /*flex-direction: row;*/
+  /*flex-wrap: wrap;*/
+}
+
+.flex-direction-row {
+  flex-direction: row;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.navbar-tab-group {
+  border: 1px solid #e8e8e8;
+}
+
+.navbar-tab-content {
+  padding: 16px;
+}
+
+.mat-tab-body {
+  overflow: scroll;
+  max-height: 75vh;
+}

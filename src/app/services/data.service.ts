@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-constructor() { }
+  constructor() { }
+
+  animationValue$: BehaviorSubject<string> = new BehaviorSubject<string>('animate_close');
+
+  changeAnimationValue = (value: string) => {
+    this.animationValue$.next(value);
+  };
 
   private areas: { value: string, viewValue: string } [] = [
     { value: 'country', viewValue: 'Country Layer' },

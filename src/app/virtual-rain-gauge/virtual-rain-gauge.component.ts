@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { loadModules } from 'esri-loader';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { DataService } from '../services/data.service';
 import { MapComponent } from '../map/map.component';
 import esri = __esri;
@@ -12,11 +12,12 @@ import esri = __esri;
 })
 export class VirtualRainGaugeComponent implements OnInit {
 
-  @Input() map$: Observable<esri.Map>;
-  map: esri.Map;
-
   constructor(private dataService: DataService) { }
 
+  @Input() map$: Observable<esri.Map>;
+
+  map: esri.Map;
+  animationValue: string;
   selectedArea: string;
 
   areas = this.dataService.getAreaOptions();
@@ -31,6 +32,10 @@ export class VirtualRainGaugeComponent implements OnInit {
         this.map = map;
       }
     });
+
+    this.dataService.animationValue$.subscribe(animationValue => {
+      this.animationValue = animationValue;
+    });
   }
 
   onFileComplete(data: any) {
@@ -38,7 +43,7 @@ export class VirtualRainGaugeComponent implements OnInit {
   }
 
   animationOptionChange (event: any) {
-    console.log(event.value);
+    this.dataService.changeAnimationValue(event.value);
   }
 
   adminLayerChange(event: any) {

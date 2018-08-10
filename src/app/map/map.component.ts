@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import esri = __esri;
 import { MapService } from '../services/map.service';
+import { DataService } from '../services/data.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -11,8 +12,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MapComponent implements OnInit {
 
-  @Input() map$: BehaviorSubject <esri.Map>;
-  @Input() mapView$: BehaviorSubject <esri.MapView>;
+  constructor(private mapService: MapService, private dataService: DataService) { }
+
+  @Input() map$: BehaviorSubject<esri.Map>;
+  @Input() mapView$: BehaviorSubject<esri.MapView>;
 
   // Private vars with default values
   private _zoom = 4;
@@ -20,11 +23,9 @@ export class MapComponent implements OnInit {
   private _basemap = 'topo';
 
   // Variables
-  showSlider = false;
-
-  // Global object
   map: esri.Map;
   mapView: esri.MapView;
+  animationValue: string;
 
   get zoom(): number {
     return this._zoom;
@@ -41,9 +42,12 @@ export class MapComponent implements OnInit {
   // this is needed to be able to create the MapView at the DOM element in this component
   @ViewChild('map') private mapViewEl: ElementRef;
 
-  constructor(private mapService: MapService) { }
-
   ngOnInit() {
+
+    this.dataService.animationValue$.subscribe(animationValue => {
+      this.animationValue = animationValue;
+    });
+
     loadModules([
       'esri/Map',
       'esri/views/MapView'

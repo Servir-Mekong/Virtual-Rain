@@ -3,7 +3,7 @@
   <app-header></app-header>
   <mat-drawer-container style="height: 100%;">
     <mat-drawer mode="side" opened style="height: auto;width: 27%;margin-left: 2px;padding: 3px;">
-      <mat-tab-group class="flex-container navbar-tab-group">
+      <mat-tab-group class="flex-container navbar-tab-group" (selectedTabChange)="OnTabChange($event)">
         <mat-tab label="Virtual Rain Gauge">
             <ng-template matTabContent>
               <app-virtual-rain-gauge [map$]="map$"></app-virtual-rain-gauge>
@@ -11,7 +11,7 @@
         </mat-tab>
         <mat-tab label="Virtual Stream Gauge">
           <ng-template matTabContent>
-            <app-virtual-stream-gauge></app-virtual-stream-gauge>
+            <app-virtual-stream-gauge [mapView$]="mapView$" [map$]="map$" [streamGaugeTabSelected$]="streamGaugeTabSelected$"></app-virtual-stream-gauge>
           </ng-template>
         </mat-tab>
       </mat-tab-group>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { loadModules } from 'esri-loader';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DataService } from '../services/data.service';
 import { MapComponent } from '../map/map.component';
 import esri = __esri;

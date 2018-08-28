@@ -46,6 +46,38 @@ export class DataService {
     { value: 'animate_close', viewValue: 'Close Animation' }
   ];
 
+  private jasonStations = {
+    cambodia: [
+      { value: 'j2vsg1', viewValue: 'J2VSG-1' },
+      { value: 'j2vsg2', viewValue: 'J2VSG-2' }
+    ],
+    lao: [ { value: 'j2vsg3', viewValue: 'J2VSG-3' } ],
+    thailand: [ { value: 'j2vsg3', viewValue: 'J2VSG-3' } ],
+    myanmar: [
+      { value: 'j2vsg4', viewValue: 'J2VSG-4' },
+      { value: 'j2vsg5', viewValue: 'J2VSG-5' },
+      { value: 'j2vsg6', viewValue: 'J2VSG-6' },
+      { value: 'j2vsg7', viewValue: 'J2VSG-7' },
+      { value: 'j2vsg8', viewValue: 'J2VSG-8' },
+      { value: 'j2vsg9', viewValue: 'J2VSG-9' },
+      { value: 'j2vsg10', viewValue: 'J2VSG-10' },
+      { value: 'j2vsg11', viewValue: 'J2VSG-11' },
+      { value: 'j2vsg12', viewValue: 'J2VSG-12' },
+      { value: 'j2vsg13', viewValue: 'J2VSG-13' },
+      { value: 'j2vsg14', viewValue: 'J2VSG-14' },
+      { value: 'j2vsg15', viewValue: 'J2VSG-15' }
+    ],
+    vietnam: [
+      { value: 'j2vsg16', viewValue: 'J2VSG-16' },
+      { value: 'j2vsg17', viewValue: 'J2VSG-17' },
+      { value: 'j2vsg18', viewValue: 'J2VSG-18' },
+      { value: 'j2vsg19', viewValue: 'J2VSG-19' },
+      { value: 'j2vsg20', viewValue: 'J2VSG-20' },
+      { value: 'j2vsg21', viewValue: 'J2VSG-21' },
+      { value: 'j2vsg22', viewValue: 'J2VSG-22' }
+    ]
+  };
+
   private geoserverURL = 'http://localhost:8080'
   private geoserverBaseURL = this.geoserverURL + '/geoserver/mekong-admin/wms';
 
@@ -75,6 +107,10 @@ export class DataService {
 
   getGeoserverBaseURL = function () {
     return this.geoserverBaseURL;
+  };
+
+  getJasonStations = function () {
+    return this.jasonStations;
   };
 
 }

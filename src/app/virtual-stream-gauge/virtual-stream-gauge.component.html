@@ -4,38 +4,36 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Select Gauge
+          Select and Process Data
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-divider></mat-divider>
 
       <form style="display: flex; flex-direction: column;">
         <mat-form-field>
-          <mat-select placeholder="Country">
-            <mat-option *ngFor="let country of countries" [value]="country.value">
-              {{ country.viewValue }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Select Data
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
-
-      <form style="display: flex; flex-direction: column;">
-        <mat-form-field>
-          <mat-select placeholder="Satellite">
+          <mat-select placeholder="Satellite" name="satellite" [(ngModel)]="selectedSatellite" (selectionChange)="satelliteSelectionChange()">
             <mat-option *ngFor="let satellite of satellites" [value]="satellite.value">
               {{ satellite.viewValue }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Country" name="country" [(ngModel)]="selectedCountry" (selectionChange)="countrySelectionChange()">
+            <mat-option *ngFor="let country of countries" [value]="country.value">
+              {{ country.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="showGaugeList">
+          <mat-select placeholder="Gauge" name="gauge" [(ngModel)]="selectedGauge">
+            <mat-option *ngFor="let gauge of gaugeList" [value]="gauge.value">
+              {{ gauge.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
 
         <mat-form-field>
@@ -49,12 +47,12 @@
           <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
           <mat-datepicker #endDate></mat-datepicker>
         </mat-form-field>
-        <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
-      </form>
 
-      <button mat-raised-button color="primary" style="width: 100%;">
-        Get Data <mat-icon>get_app</mat-icon>
-      </button>
+        <button mat-raised-button color="primary" style="width: 100%;" (click)="visualizeVRGData()">
+          Visualize Data <mat-icon>insert_chart</mat-icon>
+        </button>
+
+      </form>
     </mat-expansion-panel>
 
   </mat-accordion>

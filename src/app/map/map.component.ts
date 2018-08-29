@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import esri = __esri;
-import { MapService } from '../services/map.service';
 import { DataService } from '../services/data.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MapComponent implements OnInit {
 
-  constructor(private mapService: MapService, private dataService: DataService) { }
+  constructor(private dataService: DataService) { }
 
   @Input() map$: BehaviorSubject<esri.Map>;
   @Input() mapView$: BehaviorSubject<esri.MapView>;

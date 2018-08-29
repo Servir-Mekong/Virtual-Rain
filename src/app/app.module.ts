@@ -49,7 +49,10 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { VirtualRainGaugeComponent } from './virtual-rain-gauge/virtual-rain-gauge.component';
 import { VirtualStreamGaugeComponent } from './virtual-stream-gauge/virtual-stream-gauge.component';
 import { DrawToolbarComponent } from './draw-toolbar/draw-toolbar.component';
-import { MapService } from './services/map.service';
+//import { MapService } from './services/map.service';
+import { ApiService } from './services/api.service';
+import { MessageService } from './services/message.service';
+import { HttpErrorHandler } from './services/http-error-handler.service';
 import { TimeSliderComponent } from './time-slider/time-slider.component';
 
 @NgModule({
@@ -105,7 +108,10 @@ import { TimeSliderComponent } from './time-slider/time-slider.component';
       MatTreeModule
    ],
    providers: [
-      MapService
+      //MapService
+      ApiService,
+      MessageService,
+      HttpErrorHandler
    ],
    bootstrap: [
       AppComponent

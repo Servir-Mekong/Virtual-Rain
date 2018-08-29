@@ -1,15 +1,41 @@
 import { Component, Input, OnInit, OnChanges, SimpleChange } from '@angular/core';
-import { loadModules } from 'esri-loader';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
+
 import { Observable } from 'rxjs';
+
 import { DataService } from '../services/data.service';
+import { ApiService } from '../services/api.service';
+
+import { loadModules } from 'esri-loader';
 import { geojsonToArcGIS } from '@esri/arcgis-to-geojson-utils';
 import esri = __esri;
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-virtual-stream-gauge',
   templateUrl: './virtual-stream-gauge.component.html',
-  styleUrls: ['./virtual-stream-gauge.component.css']
+  styleUrls: ['./virtual-stream-gauge.component.css'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
+
 export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
 
   countries = [
@@ -26,7 +52,10 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     { value: 'sentinel', viewValue: 'Sentinel' }
   ];
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+    private apiService: ApiService
+  ) { }
 
   @Input() map$: Observable<esri.Map>;
   @Input() mapView$: Observable<esri.MapView>;
@@ -40,6 +69,8 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
   selectedCountry: string;
   selectedSatellite: string;
   selectedGauge: string;
+  selectedStartDate;
+  selectedEndDate;
   jasonStations = this.dataService.getJasonStations();
   gaugeList;
 
@@ -71,7 +102,16 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
   };
 
   visualizeVRGData = () => {
-    alert("hey they clicked me!")
+    if (!this.selectedGauge && !this.selectedStartDate && !this.selectedEndDate) {
+      return
+    }
+
+    this.apiService.getStreamTimeSeries({
+      gauge: this.selectedGauge,
+      start: moment(this.selectedStartDate).format('YYYY-MM-DD'),
+      end: moment(this.selectedEndDate).format('YYYY-MM-DD')
+    })
+    .subscribe(response => console.log(response));
   };
 
   clearStations = () => {

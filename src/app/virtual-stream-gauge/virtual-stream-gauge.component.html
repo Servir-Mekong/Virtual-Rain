@@ -11,44 +11,52 @@
 
       <form style="display: flex; flex-direction: column;">
         <mat-form-field>
-          <mat-select placeholder="Satellite" name="satellite" [(ngModel)]="selectedSatellite" (selectionChange)="satelliteSelectionChange()">
+          <mat-select placeholder="Satellite" name="satellite" [(ngModel)]="selectedSatellite" (selectionChange)="satelliteSelectionChange()" required>
             <mat-option *ngFor="let satellite of satellites" [value]="satellite.value">
               {{ satellite.viewValue }}
             </mat-option>
           </mat-select>
+          <mat-error>This field is required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="Country" name="country" [(ngModel)]="selectedCountry" (selectionChange)="countrySelectionChange()">
+          <mat-select placeholder="Country" name="country" [(ngModel)]="selectedCountry" (selectionChange)="countrySelectionChange()" required>
             <mat-option *ngFor="let country of countries" [value]="country.value">
               {{ country.viewValue }}
             </mat-option>
           </mat-select>
+          <mat-error>This field is required</mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="showGaugeList">
-          <mat-select placeholder="Gauge" name="gauge" [(ngModel)]="selectedGauge">
+          <mat-select placeholder="Gauge" name="gauge" [(ngModel)]="selectedGauge" required>
             <mat-option *ngFor="let gauge of gaugeList" [value]="gauge.value">
               {{ gauge.viewValue }}
             </mat-option>
           </mat-select>
+          <mat-error>This field is required</mat-error>
         </mat-form-field>
 
         <mat-divider style="margin-top: 10px;margin-bottom: 8px;"></mat-divider>
 
         <mat-form-field>
-          <input matInput [matDatepicker]="startDate" placeholder="Start Date">
+          <input matInput [matDatepicker]="startDate" name="startDate" placeholder="Start Date" [(ngModel)]="selectedStartDate" required>
           <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
           <mat-datepicker #startDate></mat-datepicker>
+          <mat-error>This field is required</mat-error>
+          <!--<mat-error *ngIf="startDateBeforeError">End date must be greater than start date</mat-error>-->
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput [matDatepicker]="endDate" placeholder="End Date">
+          <input matInput [matDatepicker]="endDate" name="endDate" placeholder="End Date" [(ngModel)]="selectedEndDate" required>
           <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
           <mat-datepicker #endDate></mat-datepicker>
+          <mat-error *ngIf="dateError">{{ dateErrorMessage }}</mat-error>
+          <mat-error>This field is required</mat-error>
+          <!--<mat-error *ngIf="startDateBeforeError">End date must be greater than start date</mat-error>-->
         </mat-form-field>
 
-        <button mat-raised-button color="primary" style="width: 100%;" (click)="visualizeVRGData()">
+        <button mat-raised-button color="primary" (click)="visualizeVRGData()">
           Visualize Data <mat-icon>insert_chart</mat-icon>
         </button>
 

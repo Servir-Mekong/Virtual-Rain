@@ -54,6 +54,7 @@ import { ApiService } from './services/api.service';
 import { MessageService } from './services/message.service';
 import { HttpErrorHandler } from './services/http-error-handler.service';
 import { TimeSliderComponent } from './time-slider/time-slider.component';
+import { GraphDialogComponent } from './graph-dialog/graph-dialog.component';
 
 @NgModule({
    declarations: [
@@ -64,7 +65,8 @@ import { TimeSliderComponent } from './time-slider/time-slider.component';
       VirtualRainGaugeComponent,
       VirtualStreamGaugeComponent,
       DrawToolbarComponent,
-      TimeSliderComponent
+      TimeSliderComponent,
+      GraphDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -115,6 +117,9 @@ import { TimeSliderComponent } from './time-slider/time-slider.component';
    ],
    bootstrap: [
       AppComponent
+   ],
+   entryComponents:[
+    GraphDialogComponent
    ]
 })
 export class AppModule { }

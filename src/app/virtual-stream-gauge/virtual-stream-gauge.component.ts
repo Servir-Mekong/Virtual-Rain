@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, OnChanges, SimpleChange } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 
 import { Observable } from 'rxjs';
+
+import { GraphDialogComponent } from '../graph-dialog/graph-dialog.component';
 
 import { DataService } from '../services/data.service';
 import { ApiService } from '../services/api.service';
@@ -54,7 +57,8 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
 
   constructor(
     private dataService: DataService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    public dialog: MatDialog
   ) { }
 
   @Input() map$: Observable<esri.Map>;
@@ -101,6 +105,20 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     }
   };
 
+  openGraphDialog = (dialogTitle: string, chartTitle: string, seriesName: string, data) => {
+
+    this.dataService.setDialogTitle(dialogTitle);
+    this.dataService.setDialogContentOptions(chartTitle, seriesName, data);
+    const dialogRef = this.dialog.open(GraphDialogComponent,{
+      height: '70vh',
+      width: '70vw'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  };
+
   visualizeVRGData = () => {
     if (!this.selectedGauge && !this.selectedStartDate && !this.selectedEndDate) {
       return
@@ -111,7 +129,13 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
       start: moment(this.selectedStartDate).format('YYYY-MM-DD'),
       end: moment(this.selectedEndDate).format('YYYY-MM-DD')
     })
-    .subscribe(response => console.log(response));
+    .subscribe(response => {
+      let graphData = response['data'];
+      for (let data of graphData) {
+        data[0] = Date.parse(data[0]);
+      }
+      this.openGraphDialog('Timeseries of Rainfall Data', 'Timeseries of Rainfall Data', 'Precipitation',  response['data']);
+    });
   };
 
   clearStations = () => {

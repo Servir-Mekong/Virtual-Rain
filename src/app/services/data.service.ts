@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import * as Highcharts from 'highcharts';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,47 @@ export class DataService {
   constructor() { }
 
   animationValue$: BehaviorSubject<string> = new BehaviorSubject<string>('animate_close');
+
+  dialogTitle$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  dialogContentOptions$: BehaviorSubject<Highcharts.Options> = new BehaviorSubject<Highcharts.Options>(null);
+
+  getDialogTitle = () => {
+    return this.dialogTitle$;
+  };
+
+  setDialogTitle = (dialogTitle: string) => {
+    this.dialogTitle$.next(dialogTitle);
+  };
+
+  getDialogContentOptions = () => {
+    return this.dialogContentOptions$;
+  };
+
+  setDialogContentOptions = (chartTitle: string, seriesName: string, chartData) => {
+    const contentOptions = {
+      xAxis: {
+        type: 'datetime'
+      },
+      rangeSelector: {
+          selected: 1
+      },
+      title: {
+        text: chartTitle
+      },
+      series: [
+        {
+          name: seriesName,
+          data: chartData,
+          type: 'spline',
+          tooltip: {
+            valueDecimals: 3
+          }
+        }
+      ]
+    };
+
+    this.dialogContentOptions$.next(contentOptions);
+  };
 
   changeAnimationValue = (value: string) => {
     this.animationValue$.next(value);

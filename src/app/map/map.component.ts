@@ -17,8 +17,8 @@ export class MapComponent implements OnInit {
   @Input() mapView$: BehaviorSubject<esri.MapView>;
 
   // Private vars with default values
-  private _zoom = 4;
-  private _center = [121.472, 10.898];
+  private _zoom = 5;
+  private _center = [102.93, 16.4];//[121.472, 10.898];
   private _basemap = 'topo';
 
   // Variables

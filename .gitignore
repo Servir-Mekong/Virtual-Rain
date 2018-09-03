@@ -26,7 +26,6 @@ virtual_rain/settings.py
 
 # Vendor files
 # ======================
-virtual_rain/static/*
 
 # Node and related environment
 # ======================

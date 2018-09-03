@@ -1,0 +1,34 @@
+# python compile files
+# ===========
+*.pyc
+
+# private
+# ===========
+media/*
+# Exception to the rule
+!media/README.md
+static/*
+# Exception to the rule
+!static/README.md
+virtual_rain/settings.py
+
+# Eclipse project files
+# ======================
+.project
+.pydevproject
+*.pyproj
+
+# Visual Studio project files
+# ======================
+.settings/
+.vs/
+*.sln
+
+# Vendor files
+# ======================
+virtual_rain/static/*
+
+# Node and related environment
+# ======================
+.npmignore
+node_modules/

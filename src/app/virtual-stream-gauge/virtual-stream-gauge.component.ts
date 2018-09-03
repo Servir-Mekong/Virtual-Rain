@@ -105,9 +105,9 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     }
   };
 
-  openGraphDialog = (dialogTitle: string, chartTitle: string, seriesName: string, data) => {
+  openGraphDialog = (chartTitle: string, seriesName: string, data) => {
 
-    this.dataService.setDialogTitle(dialogTitle);
+    // this.dataService.setDialogTitle(dialogTitle);
     this.dataService.setDialogContentOptions(chartTitle, seriesName, data);
     const dialogRef = this.dialog.open(GraphDialogComponent,{
       height: '70vh',
@@ -115,7 +115,8 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      // console.log(`Dialog result: ${result}`);
+      console.log('Dialog closed');
     });
   };
 
@@ -134,7 +135,7 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
       for (let data of graphData) {
         data[0] = Date.parse(data[0]);
       }
-      this.openGraphDialog('Timeseries of Rainfall Data', 'Timeseries of Rainfall Data', 'Precipitation',  response['data']);
+      this.openGraphDialog('Timeseries of Rainfall Data', 'Precipitation',  response['data']);
     });
   };
 

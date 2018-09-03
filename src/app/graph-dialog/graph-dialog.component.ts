@@ -4,6 +4,11 @@ import { DataService } from '../services/data.service';
 
 import { chart } from 'highcharts';
 import * as Highcharts from 'highcharts';
+const Exporting = require('highcharts/modules/exporting');
+const ExportData = require('highcharts/modules/export-data');
+
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-graph-dialog',

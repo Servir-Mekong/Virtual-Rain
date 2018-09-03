@@ -18,9 +18,9 @@ export class DataService {
     return this.dialogTitle$;
   };
 
-  setDialogTitle = (dialogTitle: string) => {
+  /*setDialogTitle = (dialogTitle: string) => {
     this.dialogTitle$.next(dialogTitle);
-  };
+  };*/
 
   getDialogContentOptions = () => {
     return this.dialogContentOptions$;
@@ -46,7 +46,29 @@ export class DataService {
             valueDecimals: 3
           }
         }
-      ]
+      ],
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        buttons: {
+          contextButton: {
+            menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                "downloadCSV",
+                "downloadXLS",
+                //"viewData",
+                //"openInCloud"
+            ]
+          }
+        }
+      }
     };
 
     this.dialogContentOptions$.next(contentOptions);

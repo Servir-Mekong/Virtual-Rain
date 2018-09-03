@@ -8,9 +8,12 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.views.generic import TemplateView
 from django.views.static import serve
+
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from stream_gauge import api as stream_gauge_api
+from stream_gauge import views as stream_gauge_views
 
 admin.autodiscover()
 
@@ -18,15 +21,15 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^api/stream-gauge/$', stream_gauge_api.api),
+    url(r'^streams/', stream_gauge_views.J3VSG1List.as_view()),
 ]
 
 urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),  # NOQA
-    #url(r'^$', TemplateView.as_view(template_name="index.html")),
-    #url(r'', include('rain_gauge.urls')),
-    #url(r'', include('stream_gauge.urls')),
     #url(r'^', include('cms.urls')),
 )
+
+urlpatterns = format_suffix_patterns(urlpatterns)
 
 # This is only needed when using runserver.
 if settings.DEBUG:

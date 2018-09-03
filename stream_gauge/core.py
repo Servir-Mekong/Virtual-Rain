@@ -3,8 +3,8 @@
 from django.conf import settings
 
 import pandas as pd
-import numpy as np
-import time
+#import numpy as np
+#import time
 
 # -----------------------------------------------------------------------------
 class StreamGauge():

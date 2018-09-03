@@ -160,12 +160,11 @@ INSTALLED_APPS = (
     'djangocms_snippet',
     'djangocms_googlemap',
     'djangocms_video',
-    'landcoverportal',
-    'forest_monitor',
-    'landcover_viewer',
-    # Google Oauth
-    'django.contrib.sessions.middleware',
-    'oauth2client.contrib.django_util'
+    'rest_framework',
+    'virtual_rain',
+    'rain_gauge',
+    #'stream_gauge',
+    'stream_gauge.apps.StreamGaugeConfig',
 )
 
 LANGUAGES = (

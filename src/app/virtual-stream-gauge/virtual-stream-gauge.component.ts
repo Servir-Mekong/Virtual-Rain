@@ -77,6 +77,8 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
   selectedEndDate;
   jasonStations = this.dataService.getJasonStations();
   gaugeList;
+  minDate: Date;
+  maxDate: Date;
 
   ngOnInit() {
     this.map$.subscribe(map => {
@@ -102,6 +104,11 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
   satelliteSelectionChange = () => {
     if (this.selectedSatellite === 'jason2' || 'jason3') {
       this.loadJasonLayers();
+    }
+
+    if (this.selectedSatellite === 'jason2') {
+      this.minDate = new Date(2008, 7, 1);
+      this.maxDate = new Date(2016, 10, 0);
     }
   };
 

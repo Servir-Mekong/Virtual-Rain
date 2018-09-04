@@ -1,6 +1,7 @@
 Django==1.11.10
 django-classy-tags==0.8.0
 django-cms==3.4.5
+django-cors-headers==2.4.0
 django-filer==1.3.0
 django-filter==2.0.0
 django-formtools==2.1

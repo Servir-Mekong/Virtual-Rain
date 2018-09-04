@@ -13,15 +13,18 @@ from django.views.static import serve
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from stream_gauge import api as stream_gauge_api
-from stream_gauge import views as stream_gauge_views
+from stream_gauge.views.jason2 import Jason2List
+from stream_gauge.views.jason3 import Jason3List
 
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
-    url(r'^api/stream-gauge/$', stream_gauge_api.api),
-    url(r'^streams/', stream_gauge_views.J3VSG1List.as_view()),
+    url(r'^api/stream-gauge/jason2/$', Jason2List.as_view()),
+    url(r'^api/stream-gauge/jason3/$', Jason3List.as_view()),
+    #url(r'^api/stream-gauge/$', stream_gauge_api.api),
+    #url(r'^streams/', stream_gauge_views.Jason3List.as_view()),
 ]
 
 urlpatterns += i18n_patterns(

@@ -7,14 +7,13 @@ import { HttpErrorHandler, HandleError } from './http-error-handler.service';
 
 import { environment } from './../../environments/environment';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
+const headers = new HttpHeaders({
+  'Content-Type': 'application/json'
+});
 
-export interface StreamTimeSeriesData {
-  gauge: string;
+export interface StreamData {
+  satellite: string,
+  station: string;
   start: string;
   end: string;
 }
@@ -33,12 +32,16 @@ export class ApiService {
     this.handleError = httpErrorHandler.createHandleError('ApiService');
   }
 
-  getStreamTimeSeries (streamTimeSeriesData: StreamTimeSeriesData) {
-    httpOptions['params'] = new HttpParams().set('action', 'timeseries');
-
-    return this.http.post(environment.server_base_api + 'stream-gauge/', streamTimeSeriesData, httpOptions)
+  getStreamData (streamData: StreamData) {
+    const satellite = streamData.satellite;
+    delete streamData.satellite;
+    let httpParams = new HttpParams();
+    Object.keys(streamData).forEach(function (key) {
+      httpParams = httpParams.set(key, streamData[key]);
+    });
+    return this.http.get(environment.server_base_api + 'stream-gauge/' + satellite + '/', { params: httpParams, headers: headers })
       .pipe(
-        catchError(this.handleError('getStreamTimeSeries', streamTimeSeriesData))
+        catchError(this.handleError('getStreamTimeSeries', streamData))
       );
   }
 }

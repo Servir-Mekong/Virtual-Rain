@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { loadModules } from 'esri-loader';
 import { Observable } from 'rxjs';
 import { DataService } from '../services/data.service';
-import { MapComponent } from '../map/map.component';
 import esri = __esri;
 
 @Component({
@@ -57,8 +56,8 @@ export class VirtualRainGaugeComponent implements OnInit {
       WMSLayer
     ]) => {
 
-      const wmsBaseURL = 'http://localhost:8080/geoserver/mekong-admin/wms';
-      esriConfig.request.corsEnabledServers.push('localhost:8080');
+      const wmsBaseURL = this.dataService.getGeoserverURL() + 'mekong-admin/wms';
+      esriConfig.request.corsEnabledServers.push(this.dataService.getGeoserverURL());
       const wmsOptions = {
         id: event.value,
         opacity: 0.8,

@@ -112,38 +112,37 @@ export class DataService {
 
   private jasonStations = {
     cambodia: [
-      { value: 'j2vsg1', viewValue: 'J2VSG-1' },
-      { value: 'j2vsg2', viewValue: 'J2VSG-2' }
+      { value: 'vsg1', viewValue: 'Station 1' },
+      { value: 'vsg2', viewValue: 'Station 2' }
     ],
-    lao: [ { value: 'j2vsg3', viewValue: 'J2VSG-3' } ],
-    thailand: [ { value: 'j2vsg3', viewValue: 'J2VSG-3' } ],
+    lao: [ { value: 'vsg3', viewValue: 'Station 3' } ],
+    thailand: [ { value: 'vsg3', viewValue: 'Station 3' } ],
     myanmar: [
-      { value: 'j2vsg4', viewValue: 'J2VSG-4' },
-      { value: 'j2vsg5', viewValue: 'J2VSG-5' },
-      { value: 'j2vsg6', viewValue: 'J2VSG-6' },
-      { value: 'j2vsg7', viewValue: 'J2VSG-7' },
-      { value: 'j2vsg8', viewValue: 'J2VSG-8' },
-      { value: 'j2vsg9', viewValue: 'J2VSG-9' },
-      { value: 'j2vsg10', viewValue: 'J2VSG-10' },
-      { value: 'j2vsg11', viewValue: 'J2VSG-11' },
-      { value: 'j2vsg12', viewValue: 'J2VSG-12' },
-      { value: 'j2vsg13', viewValue: 'J2VSG-13' },
-      { value: 'j2vsg14', viewValue: 'J2VSG-14' },
-      { value: 'j2vsg15', viewValue: 'J2VSG-15' }
+      { value: 'vsg4', viewValue: 'Station 4' },
+      { value: 'vsg5', viewValue: 'Station 5' },
+      { value: 'vsg6', viewValue: 'Station 6' },
+      { value: 'vsg7', viewValue: 'Station 7' },
+      { value: 'vsg8', viewValue: 'Station 8' },
+      { value: 'vsg9', viewValue: 'Station 9' },
+      { value: 'vsg10', viewValue: 'Station 10' },
+      { value: 'vsg11', viewValue: 'Station 11' },
+      { value: 'vsg12', viewValue: 'Station 12' },
+      { value: 'vsg13', viewValue: 'Station 13' },
+      { value: 'vsg14', viewValue: 'Station 14' },
+      { value: 'vsg15', viewValue: 'Station 15' }
     ],
     vietnam: [
-      { value: 'j2vsg16', viewValue: 'J2VSG-16' },
-      { value: 'j2vsg17', viewValue: 'J2VSG-17' },
-      { value: 'j2vsg18', viewValue: 'J2VSG-18' },
-      { value: 'j2vsg19', viewValue: 'J2VSG-19' },
-      { value: 'j2vsg20', viewValue: 'J2VSG-20' },
-      { value: 'j2vsg21', viewValue: 'J2VSG-21' },
-      { value: 'j2vsg22', viewValue: 'J2VSG-22' }
+      { value: 'vsg16', viewValue: 'Station 16' },
+      { value: 'vsg17', viewValue: 'Station 17' },
+      { value: 'vsg18', viewValue: 'Station 18' },
+      { value: 'vsg19', viewValue: 'Station 19' },
+      { value: 'vsg20', viewValue: 'Station 20' },
+      { value: 'vsg21', viewValue: 'Station 21' },
+      { value: 'vsg22', viewValue: 'Station 22' }
     ]
   };
 
-  private geoserverURL = 'http://localhost:8080'
-  private geoserverBaseURL = this.geoserverURL + '/geoserver/mekong-admin/wms';
+  private geoserverURL = 'http://203.146.112.253:8080/geoserver/';
 
   getAreaOptions = function () {
     return this.areas;
@@ -167,10 +166,6 @@ export class DataService {
 
   getGeoserverURL = function () {
     return this.geoserverURL;
-  };
-
-  getGeoserverBaseURL = function () {
-    return this.geoserverBaseURL;
   };
 
   getJasonStations = function () {

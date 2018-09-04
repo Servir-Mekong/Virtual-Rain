@@ -132,17 +132,18 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
       return
     }
 
-    this.apiService.getStreamTimeSeries({
-      gauge: this.selectedGauge,
+    this.apiService.getStreamData({
+      satellite: this.selectedSatellite,
+      station: this.selectedGauge,
       start: moment(this.selectedStartDate).format('YYYY-MM-DD'),
       end: moment(this.selectedEndDate).format('YYYY-MM-DD')
     })
     .subscribe(response => {
-      let graphData = response['data'];
-      for (let data of graphData) {
-        data[0] = Date.parse(data[0]);
+      let graphData = [];
+      for (let index of Object.keys(response)) {
+        graphData.push([Date.parse(response[index]['date']), response[index]['water_level']])
       }
-      this.openGraphDialog('Timeseries of Rainfall Data', 'Precipitation',  response['data']);
+      this.openGraphDialog('Timeseries of Rainfall Data', 'Precipitation',  graphData);
     });
   };
 

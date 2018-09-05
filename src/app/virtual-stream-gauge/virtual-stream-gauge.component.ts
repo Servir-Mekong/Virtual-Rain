@@ -41,20 +41,6 @@ const MY_FORMATS = {
 
 export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
 
-  countries = [
-    { value: 'cambodia', viewValue: 'Cambodia' },
-    { value: 'lao', viewValue: 'Lao PDR' },
-    { value: 'myanmar', viewValue: 'Myanmar' },
-    { value: 'thailand', viewValue: 'Thailand' },
-    { value: 'vietnam', viewValue: 'Vietnam' }
-  ];
-
-  satellites = [
-    { value: 'jason2', viewValue: 'Jason 2' },
-    { value: 'jason3', viewValue: 'Jason 3' },
-    { value: 'sentinel', viewValue: 'Sentinel' }
-  ];
-
   constructor(
     private dataService: DataService,
     private apiService: ApiService,
@@ -64,21 +50,6 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
   @Input() map$: Observable<esri.Map>;
   @Input() mapView$: Observable<esri.MapView>;
   @Input() streamGaugeTabSelected$: Observable<esri.KMLLayer>;
-
-  map: esri.Map;
-  mapView: esri.MapView;
-  stationLayer: esri.FeatureLayer;
-  satelliteTrackLayer: esri.FeatureLayer;
-  showGaugeList: boolean = false;
-  selectedCountry: string;
-  selectedSatellite: string;
-  selectedGauge: string;
-  selectedStartDate;
-  selectedEndDate;
-  jasonStations = this.dataService.getJasonStations();
-  gaugeList;
-  minDate: Date;
-  maxDate: Date;
 
   ngOnInit() {
     this.map$.subscribe(map => {
@@ -94,6 +65,245 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     });
   }
 
+  countries = [
+    { value: 'cambodia', viewValue: 'Cambodia' },
+    { value: 'lao', viewValue: 'Lao PDR' },
+    { value: 'myanmar', viewValue: 'Myanmar' },
+    { value: 'thailand', viewValue: 'Thailand' },
+    { value: 'vietnam', viewValue: 'Vietnam' }
+  ];
+
+  satellites = [
+    { value: 'jason2', viewValue: 'Jason 2' },
+    { value: 'jason3', viewValue: 'Jason 3' },
+    { value: 'sentinel-3a', viewValue: 'Sentinel 3A' },
+    // { value: 'sentinel-3b', viewValue: 'Sentinel 3B' }
+  ];
+
+  /**************************************************
+   * Define the specification for each field to create
+   * in the layer
+   **************************************************/
+  private jasonStationsFields = [
+    {
+      'name': 'objectID',
+      'alias': 'ObjectID',
+      'type': 'oid'
+    },
+    {
+      name: 'VSG_Name',
+      alias: 'Virtual Stream Gauge Name',
+      type: 'string'
+    },
+    {
+      name: 'Stream',
+      alias: 'Stream Name',
+      type: 'string'
+    },
+    {
+      name: 'Country',
+      alias: 'Country',
+      type: 'string'
+    },
+    {
+      name: 'Pass_Number',
+      alias: 'Pass Number',
+      type: 'single',
+    },
+    {
+      name: 'Lat',
+      alias: 'Latitude',
+      type: 'double'
+    },
+    {
+      name: 'Lon',
+      alias: 'Longitude',
+      type: 'double'
+    }
+  ];
+
+  private sentinel3AStationsFields = [
+    {
+      'name': 'objectID',
+      'alias': 'ObjectID',
+      'type': 'oid'
+    },
+    {
+      name: 'Country',
+      alias: 'Country',
+      type: 'string'
+    },
+    {
+      name: 'Lat',
+      alias: 'Latitude',
+      type: 'double'
+    },
+    {
+      name: 'Lon',
+      alias: 'Longitude',
+      type: 'double'
+    }
+  ];
+
+  private jasonTrackFields = [
+    {
+      'name': 'objectID',
+      'alias': 'ObjectID',
+      'type': 'oid'
+    },
+    {
+      'name': 'Name',
+      'alias': 'Name',
+      'type': 'string'
+    }
+  ];
+
+  /**************************************************
+   * Define the renderer for symbolizing stations
+   **************************************************/
+  private stationsRenderer = {
+    type: 'simple',  // autocasts as new SimpleRenderer()
+    symbol: {
+      type: 'picture-marker',  // autocasts as new PictureMarkerSymbol()
+      url: 'assets/images/marker.png',
+      width: '40px',
+      height: '40px'
+    }
+  };
+
+  /**************************************************
+   * Set up popup template for the layer
+   **************************************************/
+  private jasonStationsPopupTemplate = {
+    //title: '{title}',
+    content: [
+      {
+        type: 'fields',
+        fieldInfos: [
+          {
+            fieldName: 'Stream',
+            label: 'Stream Name',
+            visible: true
+          },
+          {
+            fieldName: 'Country',
+            label: 'Country',
+            visible: true
+          },
+          {
+            fieldName: 'Pass_Number',
+            label: 'Pass Number',
+            visible: true
+          },
+          {
+            fieldName: 'Lat',
+            label: 'Latitude',
+            visible: true
+          },
+          {
+            fieldName: 'Lon',
+            label: 'Longitude',
+            visible: true
+          }
+        ]
+      },
+      /*{
+        type: 'text',
+        text: 'This is next one'
+      }*/
+    ]
+  };
+
+  private sentinel3AStationsPopupTemplate = {
+    content: [
+      {
+        type: 'fields',
+        fieldInfos: [
+          {
+            fieldName: 'Country',
+            label: 'Country',
+            visible: true
+          },
+          {
+            fieldName: 'Lat',
+            label: 'Latitude',
+            visible: true
+          },
+          {
+            fieldName: 'Lon',
+            label: 'Longitude',
+            visible: true
+          }
+        ]
+      }
+    ]
+  };
+
+  private jasonTrackPopupTemplate = {
+    content: [
+      {
+        type: 'fields',
+        fieldInfos: [
+          {
+            fieldName: 'Name',
+            label: 'Track',
+            visible: true
+          }
+        ]
+      }
+    ]
+  };
+
+  map: esri.Map;
+  mapView: esri.MapView;
+  jasonStationLayer: esri.FeatureLayer;
+  sentinel3AStationLayer: esri.FeatureLayer;
+  jasonTrackLayer: esri.FeatureLayer;
+  showGaugeList: boolean = false;
+  selectedCountry: string;
+  selectedSatellite: string;
+  selectedGauge: string;
+  selectedStartDate;
+  selectedEndDate;
+  jasonStations = this.dataService.getJasonStations();
+  gaugeList;
+  minDate: Date;
+  maxDate: Date;
+
+  hideStations = (satellite: string) => {
+    if ((satellite === 'jason' || satellite === 'all') && this.jasonStationLayer) {
+      //this.map.layers.remove(this.jasonStationLayer);
+      this.jasonStationLayer.visible = false;
+    }
+
+    if ((satellite === 'sentinel-3a' || satellite === 'all') && this.sentinel3AStationLayer) {
+      this.sentinel3AStationLayer.visible = false;
+    }
+  };
+
+  showStations = (satellite: string) => {
+    if ((satellite === 'jason' || satellite === 'all') && this.jasonStationLayer) {
+      //this.map.layers.remove(this.jasonStationLayer);
+      this.jasonStationLayer.visible = true;
+    }
+
+    if ((satellite === 'sentinel-3a' || satellite === 'all') && this.sentinel3AStationLayer) {
+      this.sentinel3AStationLayer.visible = true;
+    }
+  };
+
+  hideTracks = (satellite: string) => {
+    if ((satellite === 'jason' || satellite === 'all') && this.jasonTrackLayer) {
+      this.jasonTrackLayer.visible = false;
+    }
+  };
+
+  showTracks = (satellite: string) => {
+    if ((satellite === 'jason' || satellite === 'all') && this.jasonTrackLayer) {
+      this.jasonTrackLayer.visible = true;
+    }
+  };
+
   countrySelectionChange = () => {
     if (this.selectedSatellite === 'jason2' || 'jason3') {
       this.gaugeList = this.jasonStations[this.selectedCountry]
@@ -102,8 +312,13 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
   };
 
   satelliteSelectionChange = () => {
-    if (this.selectedSatellite === 'jason2' || 'jason3') {
-      this.loadJasonLayers();
+    if (this.selectedSatellite === 'jason2' || this.selectedSatellite === 'jason3') {
+      this.hideStations('sentinel-3a');
+      this.loadStationsAndTracks('jason');
+    } else if (this.selectedSatellite === 'sentinel-3a') {
+      this.hideStations('jason');
+      this.hideTracks('jason');
+      this.loadStationsAndTracks('sentinel-3a');
     }
 
     if (this.selectedSatellite === 'jason2') {
@@ -147,30 +362,17 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     });
   };
 
-  clearStations = () => {
-    if (this.map && this.stationLayer) {
-      this.map.layers.remove(this.stationLayer);
-    }
-  };
-
-  clearSatelliteTracks = () => {
-    if (this.map && this.satelliteTrackLayer) {
-      this.map.layers.remove(this.satelliteTrackLayer);
-    }
-  };
-
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
     if (changes.streamGaugeTabSelected$.currentValue === true) {
       // do nothing
-      //this.loadJasonLayers();
       console.log('switched to VSG tab');
     } else {
-      this.clearStations();
-      this.clearSatelliteTracks();
+      this.hideStations('all');
+      this.hideTracks('jason');
     }
   };
 
-  loadJasonLayers = () => {
+  loadStationsAndTracks = (satellite: string) => {
     loadModules([
       'esri/layers/FeatureLayer',
       'esri/Graphic',
@@ -186,132 +388,11 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
       esriRequest
     ]) => {
 
-      /**************************************************
-       * Define the specification for each field to create
-       * in the layer
-       **************************************************/
-      const StationsFields = [
-        {
-          name: 'VSG_Name',
-          alias: 'Virtual Stream Gauge Name',
-          type: 'string'
-        },
-        {
-          name: 'Stream',
-          alias: 'Stream Name',
-          type: 'string'
-        },
-        {
-          name: 'Country',
-          alias: 'Country',
-          type: 'string'
-        },
-        {
-          name: 'Pass_Number',
-          alias: 'Pass Number',
-          type: 'single',
-        },
-        {
-          name: 'Lat',
-          alias: 'Latitude',
-          type: 'double'
-        },
-        {
-          name: 'Lon',
-          alias: 'Longitude',
-          type: 'double'
-        }
-      ];
-
-      const satelliteFields = [
-        {
-          'name': 'objectID',
-          'alias': 'ObjectID',
-          'type': 'oid'
-        },
-        {
-          'name': 'Name',
-          'alias': 'Name',
-          'type': 'string'
-        }
-      ];
-
-      /**************************************************
-       * Define the renderer for symbolizing stations
-       **************************************************/
-      const stationsRenderer = {
-        type: 'simple',  // autocasts as new SimpleRenderer()
-        symbol: {
-          type: 'picture-marker',  // autocasts as new PictureMarkerSymbol()
-          url: 'assets/images/marker.png',
-          width: '40px',
-          height: '40px'
-        }
-      };
-
-      const satelliteRenderer = {
+      const trackRenderer = {
         type: 'simple-line', // autocasts as new SimpleLineSymbol()
         color: 'red',
         width: '3px',
         style: 'solid'
-      };
-
-      /**************************************************
-       * Set up popup template for the layer
-       **************************************************/
-      const stationPopupTemplate = {
-        //title: '{title}',
-        content: [
-          {
-            type: 'fields',
-            fieldInfos: [
-              {
-                fieldName: 'Stream',
-                label: 'Stream Name',
-                visible: true
-              },
-              {
-                fieldName: 'Country',
-                label: 'Country',
-                visible: true
-              },
-              {
-                fieldName: 'Pass_Number',
-                label: 'Pass Number',
-                visible: true
-              },
-              {
-                fieldName: 'Lat',
-                label: 'Latitude',
-                visible: true
-              },
-              {
-                fieldName: 'Lon',
-                label: 'Longitude',
-                visible: true
-              }
-            ]
-          },
-          {
-            type: 'text',
-            text: 'This is next one'
-          }
-        ]
-      };
-
-      const satellitePopupTemplate = {
-        content: [
-          {
-            type: 'fields',
-            fieldInfos: [
-              {
-                fieldName: 'Name',
-                label: 'Track',
-                visible: true
-              }
-            ]
-          }
-        ]
       };
 
       /**************************************************
@@ -326,19 +407,21 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
       /**************************************************
        * Create graphics with returned geojson data
        **************************************************/
-      const createStationGraphics = (response) => {
+      const createStationGraphics = (satellite, response) => {
+
+        let attributes;
+
         // raw GeoJSON data
         var geoJson = response.data;
 
         // Create an array of Graphics from each GeoJSON feature
-        return geoJson.features.map(function(feature) {
-          return {
-            geometry: new Point({
-              x: feature.geometry.coordinates[0],
-              y: feature.geometry.coordinates[1]
-            }),
+        return geoJson.features.map(function(feature, index) {
+          // add an object id to each feature
+          feature.properties.objectID = index;
+          if (satellite === 'jason') {
             // select only the attributes you care about
-            attributes: {
+            attributes = {
+              objectID: feature.properties.objectID,
               VSG_Name: feature.properties.VSG_Name,
               Country: feature.properties.Country,
               Stream: feature.properties.Stream,
@@ -346,11 +429,26 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
               Lon: feature.properties.Lon,
               Lat: feature.properties.Lat
             }
+          } else if (satellite === 'sentinel-3a') {
+            attributes = {
+              objectID: feature.properties.objectID,
+              Country: feature.properties.Country,
+              Lon: feature.properties.Lon,
+              Lat: feature.properties.Lat
+            }
+          }
+
+          return {
+            geometry: new Point({
+              x: feature.geometry.coordinates[0],
+              y: feature.geometry.coordinates[1]
+            }),
+            attributes: attributes
           };
         });
       };
 
-      const createSatellitePathGraphics = (response) => {
+      const createTrackGraphics = (response) => {
         const esriJson = geojsonToArcGIS(response.data);
 
         return esriJson.map(function(feature, index) {
@@ -359,7 +457,7 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
           var polyline = new Polyline(feature.geometry);
           return new Graphic({
             geometry: polyline,
-            symbol: satelliteRenderer,
+            symbol: trackRenderer,
             attributes: feature.attributes
           });
         });
@@ -368,41 +466,66 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
       /**************************************************
        * Create a FeatureLayer with the array of graphics
        **************************************************/
-      const createStationLayer = (graphics) => {
-        this.stationLayer = new FeatureLayer({
+      const createStationLayer = (satellite, graphics) => {
+
+        const layer = new FeatureLayer({
           source: graphics, // autocast as an array of esri/Graphic
-          // create an instance of esri/layers/support/Field for each field object
-          fields: StationsFields, // This is required when creating a layer from Graphics
-          objectIdField: 'VSG_Name', // This must be defined when creating a layer from Graphics
-          renderer: stationsRenderer, // set the visualization on the layer
+          // create an instance of esri/layers/support/Field for each field object\
+          fields: satellite === 'jason' ? this.jasonStationsFields : satellite === 'sentinel-3a' ? this.sentinel3AStationsFields : undefined, // This is required when creating a layer from Graphics
+          objectIdField: 'objectID', //'VSG_Name', // This must be defined when creating a layer from Graphics
+          renderer: this.stationsRenderer, // set the visualization on the layer
           spatialReference: {
             wkid: 4326
           },
           geometryType: 'point', // Must be set when creating a layer from Graphics
-          popupTemplate: stationPopupTemplate
+          popupTemplate: satellite === 'jason' ? this.jasonStationsPopupTemplate : satellite === 'sentinel-3a' ? this.sentinel3AStationsPopupTemplate : undefined
         });
-        this.map.layers.add(this.stationLayer);
+
+        if (satellite === 'jason') {
+          this.jasonStationLayer = layer;
+          this.map.layers.add(this.jasonStationLayer);
+        } else if (satellite === 'sentinel-3a') {
+          this.sentinel3AStationLayer = layer;
+          this.map.layers.add(this.sentinel3AStationLayer);
+        }
       };
 
-      const createSatellitePathLayer = (featureArray) => {
+      const createTrackPathLayer = (featureArray) => {
 
         const featureCollection = {
           source: featureArray,
           geometryType: 'polyline',
           objectIdField: 'objectID',
-          fields: satelliteFields,
-          renderer: satelliteRenderer, // set the visualization on the layer
+          fields: this.jasonTrackFields,
+          renderer: trackRenderer, // set the visualization on the layer
           spatialReference: {
             wkid: 4326
           },
-          popupTemplate: satellitePopupTemplate
+          popupTemplate: this.jasonTrackPopupTemplate
         };
-        this.satelliteTrackLayer = new FeatureLayer(featureCollection);
-        this.map.layers.add(this.satelliteTrackLayer);
+        this.jasonTrackLayer = new FeatureLayer(featureCollection);
+        this.map.layers.add(this.jasonTrackLayer);
       };
 
-      getData('assets/data/stations.geojson').then(createStationGraphics).then(createStationLayer);
-      getData('assets/data/satellite-track.geojson').then(createSatellitePathGraphics).then(createSatellitePathLayer);
+      if (satellite === 'jason') {
+        if (this.jasonStationLayer) {
+          this.showStations(satellite);
+        } else {
+          getData('assets/data/jason-stations.geojson').then(createStationGraphics.bind(null, satellite)).then(createStationLayer.bind(null, satellite));
+        }
+
+        if (this.jasonTrackLayer) {
+          this.showTracks(satellite);
+        } else {
+          getData('assets/data/jason-track.geojson').then(createTrackGraphics).then(createTrackPathLayer);
+        }
+      } else if (satellite === 'sentinel-3a') {
+        if (this.sentinel3AStationLayer) {
+          this.showStations(satellite)
+        } else {
+          getData('assets/data/sentinel-3a-stations.geojson').then(createStationGraphics.bind(null, satellite)).then(createStationLayer.bind(null, satellite));
+        }
+      }
 
     })
     .catch(err => {

@@ -28,8 +28,12 @@ class Jason3List(generics.ListAPIView):
         else:
             end_date = None
 
-        if parameters.get('station'):
-            station = 'vsg{}'.format(parameters.get('station'))
+        _station = parameters.get('station')
+        if _station:
+            if _station.startswith('vsg'):
+                station = _station
+            else:
+                station = 'vsg{}'.format(parameters.get('station'))
         else:
             station = None
 

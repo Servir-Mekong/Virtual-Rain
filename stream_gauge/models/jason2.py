@@ -13,11 +13,10 @@ class Jason2(models.Model):
     JASON2_STATION_CHOICES = tuple(JASON2_STATION_CHOICES)
 
     created_on = models.DateTimeField(auto_now_add=True)
-    date = models.DateField(db_column='Date')
-    time = models.CharField(db_column='Time', max_length=10)
-    water_level = models.FloatField(db_column='Water_Level')
+    date = models.DateField()
+    time = models.CharField(max_length=10)
+    water_level = models.FloatField()
     station = models.CharField(
-        db_column = 'Station',
         choices = JASON2_STATION_CHOICES,
         max_length = 5,
     )

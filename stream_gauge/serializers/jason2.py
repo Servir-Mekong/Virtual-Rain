@@ -10,4 +10,3 @@ class Jason2Serializer(serializers.ModelSerializer):
         model = Jason2
         fields = ('date', 'water_level', 'station')
         # fields = '__all__'
-        

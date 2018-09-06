@@ -7,7 +7,6 @@ from stream_gauge.serializers.jason3 import Jason3Serializer
 
 from datetime import datetime
 
-# Get the Jason3 data
 class Jason3List(generics.ListAPIView):
 
     serializer_class = Jason3Serializer

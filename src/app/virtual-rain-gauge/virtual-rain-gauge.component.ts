@@ -49,81 +49,66 @@ export class VirtualRainGaugeComponent implements OnInit {
 
     loadModules([
       'esri/config',
+      'esri/geometry/SpatialReference',
       'esri/layers/WMSLayer'
     ])
     .then(([
       esriConfig,
+      SpatialReference,
       WMSLayer
     ]) => {
 
       const wmsBaseURL = this.dataService.getGeoserverURL() + 'mekong-admin/wms';
       esriConfig.request.corsEnabledServers.push(this.dataService.getGeoserverURL());
       const wmsOptions = {
+        url: wmsBaseURL,
         id: event.value,
         opacity: 0.8,
-        // spatialReference: new SpatialReference({ wkid: 4326 }),
-        url: wmsBaseURL,
+        spatialReference: new SpatialReference({ wkid: 4326 }),
         version: '1.1.0'
       };
       let mapHasLayer: boolean = false;
 
-      if (event.value === 'country') {
-        this.map.layers.forEach((layer, index) => {
-          if (layer.id === event.value) {
+      const loadAndAddLayer = (layers: string, title: string, mapId) => {
+        wmsOptions['customParameters'] = {
+          layers: layers
+        };
+        wmsOptions['title'] = title;
+        const layer = new WMSLayer(wmsOptions);
+        this.map.layers.add(layer, mapId);
+      };
+
+      const checkForLayers = (mapId) => {
+        this.map.layers.forEach((layer) => {
+          if (layer.id === mapId) {
             layer.visible = true;
             mapHasLayer = true;
           } else {
             layer.visible = false;
           }
         });
+      };
 
+      if (event.value === 'country') {
+        checkForLayers(event.value);
         if (!mapHasLayer) {
-          wmsOptions['customParameters'] = {
-            layers: 'mekong-admin:country'
-          };
-          wmsOptions['title'] = 'Country Layer';
-          const layer = new WMSLayer(wmsOptions);
-          this.map.layers.add(layer, event.value);
+          loadAndAddLayer('mekong-admin:country', 'Country Layer', event.value);
         }
       } else if (event.value === 'admin-layer-1') {
-        this.map.layers.forEach((layer, index) => {
-          if (layer.id === event.value) {
-            layer.visible = true;
-            mapHasLayer = true;
-          } else {
-            layer.visible = false;
-          }
-        });
-
+        checkForLayers(event.value);
         if (!mapHasLayer) {
-          wmsOptions ['customParameters'] = {
-            layers: 'mekong-admin:admin1'
-          };
-          wmsOptions['title'] = 'Admin 1 Layer';
-          const layer = new WMSLayer(wmsOptions);
-          this.map.layers.add(layer, event.value);
+          loadAndAddLayer('mekong-admin:admin1', 'Admin 1 Layer', event.value);
         }
       } else if (event.value === 'admin-layer-2') {
-        this.map.layers.forEach((layer, index) => {
-          if (layer.id === event.value) {
-            layer.visible = true;
-            mapHasLayer = true;
-          } else {
-            layer.visible = false;
-          }
-        });
-
+        checkForLayers(event.value);
         if (!mapHasLayer) {
-          wmsOptions['customParameters'] = {
-            layers: 'mekong-admin:admin2'
-          };
-          wmsOptions['title'] = 'Admin 2 Layer';
-          const layer = new WMSLayer(wmsOptions);
-          this.map.layers.add(layer, event.value);
+          loadAndAddLayer('mekong-admin:admin2', 'Admin 2 Layer', event.value);
         }
       } else if (event.value === 'close-admin') {
-        this.map.layers.forEach((layer, index) => {
-          layer.visible = false;
+        this.map.layers.forEach((layer) => {
+          if (['country', 'admin-layer-1', 'admin-layer-2'].includes(layer.id)) {
+            layer.visible = false;
+          }
         });
       }
 

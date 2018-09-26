@@ -9,7 +9,7 @@ export class DataService {
 
   constructor() { }
 
-  animationValue$: BehaviorSubject<string> = new BehaviorSubject<string>('animate_close');
+  animationValue$: BehaviorSubject<string> = new BehaviorSubject<string>('close');
 
   dialogTitle$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   dialogContentOptions$: BehaviorSubject<Highcharts.Options> = new BehaviorSubject<Highcharts.Options>(null);
@@ -106,11 +106,11 @@ export class DataService {
   ];
 
   private animationOptions: { value: string, viewValue: string } [] = [
-    { value: 'animate_cmorph', viewValue: 'CMORPH DAILY' },
-    { value: 'animate_gsmap', viewValue: 'GSMAP DAILY' },
-    { value: 'animate_imerg', viewValue: 'IMERG DAILY' },
-    { value: 'animate_trmm', viewValue: 'TRMM DAILY' },
-    { value: 'animate_close', viewValue: 'Close Animation' }
+    { value: 'cmorph', viewValue: 'CMORPH DAILY' },
+    { value: 'gsmap', viewValue: 'GSMAP DAILY' },
+    { value: 'imerg', viewValue: 'IMERG DAILY' },
+    { value: 'trmm', viewValue: 'TRMM DAILY' },
+    { value: 'close', viewValue: 'Close Animation' }
   ];
 
   private jasonStations = {

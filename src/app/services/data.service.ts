@@ -106,7 +106,10 @@ export class DataService {
   ];
 
   private animationOptions: { value: string, viewValue: string } [] = [
-    { value: 'animate_chirps_30min', viewValue: 'Latest CHIRPS 30 min' },
+    { value: 'animate_cmorph', viewValue: 'CMORPH DAILY' },
+    { value: 'animate_gsmap', viewValue: 'GSMAP DAILY' },
+    { value: 'animate_imerg', viewValue: 'IMERG DAILY' },
+    { value: 'animate_trmm', viewValue: 'TRMM DAILY' },
     { value: 'animate_close', viewValue: 'Close Animation' }
   ];
 
@@ -143,6 +146,7 @@ export class DataService {
   };
 
   private geoserverURL = 'http://203.146.112.253:8080/geoserver/';
+ // private geoserverURL = 'http://localhost:8080/geoserver/';
 
   getAreaOptions = function () {
     return this.areas;

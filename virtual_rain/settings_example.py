@@ -93,7 +93,7 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'landcoverportal', 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'virtual_rain', 'static', 'templates'),],
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',

@@ -9,6 +9,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.static import serve
+from django.views.generic import TemplateView
 
 from rest_framework.urlpatterns import format_suffix_patterns
 
@@ -25,6 +26,8 @@ urlpatterns = [
     url(r'^api/stream-gauge/jason3/$', Jason3List.as_view()),
     #url(r'^api/stream-gauge/$', stream_gauge_api.api),
     #url(r'^streams/', stream_gauge_views.Jason3List.as_view()),
+    # Uncommented for Production
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
 ]
 
 urlpatterns += i18n_patterns(

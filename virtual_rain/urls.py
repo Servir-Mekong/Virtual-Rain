@@ -12,7 +12,7 @@ from django.views.static import serve
 
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from stream_gauge import api as stream_gauge_api
+#from stream_gauge import api as stream_gauge_api
 from stream_gauge.views.jason2 import Jason2List
 from stream_gauge.views.jason3 import Jason3List
 

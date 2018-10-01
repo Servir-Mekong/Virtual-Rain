@@ -96,7 +96,7 @@
       <fieldset class="standard">
         <legend>Data Source</legend>
         <div>
-            <mat-radio-group class="navbar-radio-group" [(ngModel)]="selectedAnimationOption" (change)="animationOptionChange($event)">
+            <mat-radio-group class="navbar-radio-group" (change)="animationOptionChange($event)">
               <mat-radio-button class="navbar-radio-button" *ngFor="let animationOption of animationOptions" [value]="animationOption.value">
                 {{ animationOption.viewValue }}
               </mat-radio-button>

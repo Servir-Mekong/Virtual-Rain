@@ -51,7 +51,7 @@
           <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="endDate" name="endDate" placeholder="End Date" [(ngModel)]="selectedEndDate" required>
           <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
           <mat-datepicker #endDate></mat-datepicker>
-          <mat-error *ngIf="dateError">{{ dateErrorMessage }}</mat-error>
+         <!-- <mat-error *ngIf="dateError">{{ dateErrorMessage }}</mat-error>-->
           <mat-error>This field is required</mat-error>
           <!--<mat-error *ngIf="startDateBeforeError">End date must be greater than start date</mat-error>-->
         </mat-form-field>

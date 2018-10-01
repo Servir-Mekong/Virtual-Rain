@@ -42,3 +42,15 @@ body {
   overflow: scroll;
   max-height: 75vh;
 }
+
+/* Spinner starts */
+.loading {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+/* Spinner ends */

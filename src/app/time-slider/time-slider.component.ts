@@ -82,7 +82,7 @@ export class TimeSliderComponent implements OnInit {
   setValue = (value) => {
     this.sliderValue = Math.floor(value);
     const d = new Date(this.startDate.getTime() + 24 * 3600 * 1000 * this.sliderValue);
-    this.sliderDisplayText = d.getFullYear().toString() + '-' + ((d.getMonth() + 1) >= 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)) + '-' + d.getDate().toString();
+    this.sliderDisplayText = d.getFullYear().toString() + '-' + ((d.getMonth() + 1) >= 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)) + '-' + ((d.getDate()) >= 10 ? (d.getDate()) : '0' + (d.getDate()));
   };
 
   /**
@@ -124,7 +124,7 @@ export class TimeSliderComponent implements OnInit {
       ]) => {
   
         const wmsBaseURL = this.geoserverURL + this.animationValue + '/wms';
-        const dateString = date.getFullYear().toString() + ((date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + date.getDate().toString();
+        const dateString = date.getFullYear().toString() + ((date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + ((date.getDate()) >= 10 ? (date.getDate()) : '0' + (date.getDate()));
         esriConfig.request.corsEnabledServers.push(this.geoserverURL);
         const wmsOptions = {
           url: wmsBaseURL,

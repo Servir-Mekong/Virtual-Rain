@@ -24,7 +24,7 @@ export class TimeSliderComponent implements OnInit {
   // sliderDisplayText: string = 'Day 1';
   sliderValue: number = 1;
   //sliderDisplayText: string = 'Day ' + this.sliderValue;
-  startDate: Date = new Date(Date.now() - 24 * 3600 * 1000 * 10); // 10 days ago
+  startDate: Date = new Date(Date.now() - 24 * 3600 * 1000 * 9); // 10 days ago
   sliderDisplayText: string = this.startDate.getFullYear().toString() + '-' + ((this.startDate.getMonth() + 1) >= 10 ? (this.startDate.getMonth() + 1) : '0' + (this.startDate.getMonth() + 1)) + '-' + this.startDate.getDate().toString();
 
   ngOnInit() {
@@ -178,7 +178,7 @@ export class TimeSliderComponent implements OnInit {
     let animating: boolean = true;
     let value: number = startValue;
     // let date: Date = new Date(startDate.getTime());
-    let date: Date = new Date(startDate.getTime() + 24 * 3600 * 1000 * value);
+    let date: Date = new Date(startDate.getTime() + 24 * 3600 * 1000 * (value - 1));
 
     const frame = () => {
       if (!animating) {

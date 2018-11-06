@@ -366,6 +366,8 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     if (changes.streamGaugeTabSelected$.currentValue === true) {
       // do nothing
       console.log('switched to VSG tab');
+      console.log('closing animation slider as well!');
+      this.dataService.changeAnimationValue('close');
     } else {
       this.hideStations('all');
       this.hideTracks('jason');

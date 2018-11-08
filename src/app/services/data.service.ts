@@ -145,7 +145,7 @@ export class DataService {
     ]
   };
 
-  private geoserverURL = 'https://203.146.112.253/geoserver/';
+  private geoserverURL = 'https://geoserver.adpc.net/geoserver/';
  // private geoserverURL = 'http://localhost:8080/geoserver/';
 
   getAreaOptions = function () {

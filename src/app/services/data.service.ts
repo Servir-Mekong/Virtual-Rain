@@ -26,10 +26,15 @@ export class DataService {
     return this.dialogContentOptions$;
   };
 
-  setDialogContentOptions = (chartTitle: string, seriesName: string, chartData) => {
+  setDialogContentOptions = (chartTitle: string, seriesName: string, yAxisTitle: string, chartData) => {
     const contentOptions = {
       xAxis: {
         type: 'datetime'
+      },
+      yAxis: {
+        title: {
+          text: yAxisTitle
+        }
       },
       rangeSelector: {
           selected: 1

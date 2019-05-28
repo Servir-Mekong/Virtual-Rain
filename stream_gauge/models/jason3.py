@@ -20,6 +20,7 @@ class Jason3(models.Model):
         choices = JASON3_STATION_CHOICES,
         max_length = 5,
     )
+    gpn = models.BooleanField(default=False)
 
     class Meta:
         db_table = '"jason3"'

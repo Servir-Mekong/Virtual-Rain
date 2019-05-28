@@ -324,6 +324,10 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
     if (this.selectedSatellite === 'jason2') {
       this.minDate = new Date(2008, 7, 1);
       this.maxDate = new Date(2016, 10, 0);
+    } else if (this.selectedSatellite === 'jason3') {
+      this.minDate = new Date(2016, 2, 12);
+      this.maxDate = new Date();
+      this.maxDate.setDate(this.maxDate.getDate() - 3)
     }
   };
 

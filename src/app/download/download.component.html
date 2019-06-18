@@ -1,0 +1,104 @@
+<div class="download-container">
+  <mat-card class="flex">
+    <div class="scrollable">
+      <h3 style="padding-left: 30px;">Download Data</h3>
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Define Area</ng-template>
+            <div class="content-tab">
+              <mat-tab-group>
+                <mat-tab label="Location Specific">
+                  <p>+ Add Location(s)</p>
+                </mat-tab>
+                <mat-tab label="Area Specific">
+                  <p>Upload Area <i>(.shp or .json)</i></p>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <!-- <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="1">Location Specific</mat-radio-button>
+              <mat-radio-button value="2">Area Specific</mat-radio-button>
+            </mat-radio-group> -->
+          <div style="text-align: right;">
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Data Source</ng-template>
+          <div class="content-tab">
+          <div>
+            <mat-label><b>Data Source:</b></mat-label>
+          </div>
+          <mat-form-field>
+            <mat-select required>
+              <mat-option value="CHIRPS">CHIRPS <i>(availability: from 1998-01-01 – date)</i></mat-option>
+              <mat-option value="CMORPH">CMORPH  <i>(availability: from 2014-10-01 – 2016-12-31)</i></mat-option>
+              <mat-option value="CMORPH_NRT">CMORPH_NRT  <i>(availability: from 2017-01-01 – date)</i></mat-option>
+              <mat-option value="GSMAP_STD">GSMAP_STD  <i>(availability: from 2014-03-01 – date)</i></mat-option>
+              <mat-option value="GSMAP_NRT">GSMAP_NRT  <i>(availability: from 2017-07-01 – date)</i></mat-option>
+              <mat-option value="IMERG">IMERG  <i>(availability: from 2014-03-01 – date)</i></mat-option>
+              <mat-option value="TRMM">TRMM   <i>(availability: from 1998-01-01 – 2017-09-13)</i></mat-option>
+              <mat-option value="TRMM_NRT">TRMM_NRT   <i>(availability: from 2017-02-27 – date)</i></mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <mat-label> <b> Frequency: </b></mat-label>
+          </div>
+          <mat-form-field>
+            <mat-select required>
+              <mat-option value="daily">Daily</mat-option>
+              <mat-option value="monthly">Monthly</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <mat-label> <b> Period: </b></mat-label>
+          </div>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker1" placeholder="Start Date" [formControl]="date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker2" placeholder="End Date" [formControl]="serializedDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+            <div>
+              <mat-label> <b> Statistic: </b></mat-label>
+            </div>
+            <mat-form-field>
+              <mat-select required>
+                <mat-option value="raw">Raw</mat-option>
+                <mat-option value="mean">Mean</mat-option>
+                <mat-option value="sum">Sum</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div>
+              <mat-label> <b> Format: </b></mat-label>
+            </div>
+            <mat-form-field>
+              <mat-select required>
+                <mat-option value="time_series">Time Series</mat-option>
+                <mat-option value="tabular">Tabular</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="example-button-row">
+              <button mat-raised-button color="primary">Download CSV</button>
+              <button mat-raised-button color="basic">Show Graph</button>
+            </div>
+          </div>
+
+          <div style="text-align: right;">
+            <button mat-button matStepperPrevious>Back</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+    </div>
+  </mat-card>
+</div>

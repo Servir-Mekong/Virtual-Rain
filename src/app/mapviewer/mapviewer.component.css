@@ -1,0 +1,9 @@
+.content-height {
+  height: 87.5vh;
+}
+.manu-panel{
+  height: auto;
+  min-width: 27vw;
+  margin-left: 2px;
+  padding: 3px;
+}

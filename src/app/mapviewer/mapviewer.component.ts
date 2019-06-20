@@ -4,11 +4,11 @@ import { BehaviorSubject } from 'rxjs';
 import esri = __esri;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-mapviewer',
+  templateUrl: './mapviewer.component.html',
+  styleUrls: ['./mapviewer.component.css']
 })
-export class AppComponent implements OnInit {
+export class MapviewerComponent implements OnInit {
 
   map$: BehaviorSubject<esri.Map> = new BehaviorSubject<esri.Map>(null);
   mapView$: BehaviorSubject <esri.MapView> = new BehaviorSubject<esri.MapView>(null);

@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { Routes, RouterModule } from '@angular/router';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -44,6 +44,7 @@ import {
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { AboutComponent } from './about/about.component';
 import { MapComponent } from './map/map.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { VirtualRainGaugeComponent } from './virtual-rain-gauge/virtual-rain-gauge.component';
@@ -55,18 +56,26 @@ import { MessageService } from './services/message.service';
 import { HttpErrorHandler } from './services/http-error-handler.service';
 import { TimeSliderComponent } from './time-slider/time-slider.component';
 import { GraphDialogComponent } from './graph-dialog/graph-dialog.component';
+import { MapviewerComponent } from './mapviewer/mapviewer.component';
+
+const appRoutes: Routes = [
+  { path: 'about', component: AboutComponent },
+  { path: '', component: MapviewerComponent }
+];
 
 @NgModule({
    declarations: [
       AppComponent,
       HeaderComponent,
+      AboutComponent,
       MapComponent,
       FileUploadComponent,
       VirtualRainGaugeComponent,
       VirtualStreamGaugeComponent,
       DrawToolbarComponent,
       TimeSliderComponent,
-      GraphDialogComponent
+      GraphDialogComponent,
+      MapviewerComponent
    ],
    imports: [
       BrowserModule,
@@ -107,7 +116,8 @@ import { GraphDialogComponent } from './graph-dialog/graph-dialog.component';
       MatTabsModule,
       MatToolbarModule,
       MatTooltipModule,
-      MatTreeModule
+      MatTreeModule,
+      RouterModule.forRoot(appRoutes)
    ],
    providers: [
       //MapService
@@ -118,7 +128,7 @@ import { GraphDialogComponent } from './graph-dialog/graph-dialog.component';
    bootstrap: [
       AppComponent
    ],
-   entryComponents:[
+   entryComponents: [
     GraphDialogComponent
    ]
 })

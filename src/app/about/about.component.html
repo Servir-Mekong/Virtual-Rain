@@ -1,51 +1,64 @@
 <mat-card class="about-content">
+    <mat-card-header style="margin: 25px;">
+      <mat-card-title>
+        <div class="mat-typography" style="position:relative;">
+          <h2>Virtual Rain and Stream Gauge Data Service</h2>
+          <h3 class="mat-subheading-2"><b>Version 1.0</b></h3>
+          <p class="mat-caption"><b>&copy; {{ currentYear }}, SERVIR Mekong</b></p>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
 
-    <mat-card-header>
-        <mat-card-title>
-          <div class="mat-typography" style="position:relative;">
-          <h2 class="headertitle">	Virtual Rain and Stream Gauge Data Service </h2>
-          <h3 class="mat-subheading-2">Version 1.0</h3>
-          <p class="mat-caption">&copy; 2016, SERVIR Mekong</p>
-        </div></mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-grid-list cols = "5" rowHeight = "100px">
-           <mat-grid-tile
-           [colspan] = "3"
-           [rowspan] = "4">
-           <div class="padding10">
-           <div class="mat-typography">
-           <p class="mat-body-2">This service provides improved near real-time rainfall and stream height data products from publicly available satellite measurements by creation of a virtual network of rain gauges and stream gauges at points widely distributed over the entire Lower Mekong Region.</p>
-           <p class="mat-caption" >The service leverages a wider range of ground measurements to ensure better calibration of satellite derived rainfall estimations (GPM-IMERG, TRMM, CMORPH,
-           RFE2, GSMAP) and water elevation estimations (Jason-2/3, Sentinel-3 data products); Increased consistency and standardization of data formats available to end users; More convenient access to data products from the rainfall estimation missions and the altimetry profiling missions; Detailed guidance on using these valuable data streams for a variety of applications including now-casting, flood forecasting/warnings, water resource accounting/management and landslide early warnings/risk assessment/management, and river basin/reservoir management,  transboundary river flow management, etc.</p>
-           <mat-divider></mat-divider>
-           <mat-toolbar-row class="flex-container flex-wrap" style="height: auto;">
-             <img src="/assets/images/usaid.png" style="height:25px;margin: 10px;">
-             <img src="/assets/images/nasa.png" style="height:25px;margin: 10px;">
-             <img src="/assets/images/adpc.png" style="height:25px;margin: 10px;">
-             <img src="/assets/images/sei.png" style="height:25px;margin: 10px;">
-             <img src="/assets/images/sig.png" style="height:25px;margin: 10px;">
-             <img src="/assets/images/uh.png" style="height:25px;margin: 10px;">
-           </mat-toolbar-row>
-           </div>
-           </div>
-           </mat-grid-tile>
-           <mat-grid-tile
-           [colspan] = "2"
-           [rowspan] = "4">
-           <div class="padding10">
-           <div class="mat-typography">
-             <h3 class="headline-text">Product Team:</h3>
-             <p class="mat-caption product-team-name">Senaka Basnayake (Project Lead), Susantha Jayasinghe, Danate Donparadorn, Nuntarut Loketkawee and Suchakrey Kongpila <span class="mat-caption">Asian Disaster Preparedness Center (ADPC), Thailand</span></p>
-             <p class="mat-caption product-team-name">Eric R. Anderson, Matt He and Francisco Delgado <span class="mat-caption">NASA/SERVIR Science Coordination Office, USA</span></p>
-             <p class="mat-caption product-team-name">David Saah and Peter Cutter  <span class="mat-caption">Spatial Informatics Group (SIG), USA</span></p>
-             <h4 class="headline-text">Special Thanks:</h4>
-             <span><p class="mat-caption special-name">Hyongki Lee  <span class="mat-caption">University of Houston (UH), USA</span></p></span>
-           </div>
-           </div>
-           </mat-grid-tile>
-        </mat-grid-list>
-      </mat-card-content>
+    <mat-card-content style="margin: 20px;">
+      <mat-grid-list cols="6" rowHeight="100px">
+        <mat-grid-tile [colspan]="4" [rowspan]="4">
+          <div class="padding10">
+            <div class="mat-typography">
+              <h3 class="mat-body-2">
+                This service provides improved near real-time rainfall and stream height data products from publicly available satellite measurements by creation of a virtual network of rain gauges and stream gauges at points widely distributed over the entire Lower Mekong Region.
+              </h3>
+              <p class="mat-caption">
+                The service leverages a wider range of ground measurements to ensure better calibration of satellite derived rainfall estimations (GPM-IMERG, TRMM, CMORPH,
+                RFE2, GSMAP) and water elevation estimations (Jason-2/3, Sentinel-3 data products); Increased consistency and standardization of data formats available to end users; More convenient access to data products from the rainfall estimation missions and the altimetry profiling missions; Detailed guidance on using these valuable data streams for a variety of applications including now-casting, flood forecasting/warnings, water resource accounting/management and landslide early warnings/risk assessment/management, and river basin/reservoir management,  transboundary river flow management, etc.
+              </p>
+            </div>
+          </div>
+        </mat-grid-tile>
 
+        <mat-grid-tile [colspan]="2" [rowspan]="4" style="margin-top: -5%;">
+          <div class="padding10">
+            <div class="mat-typography">
+              <h3>For Technical Inquiries:</h3>
+              <p class="mat-caption product-team-name">Susantha Jayasinghe (susantha@adpc.net)<br/>Biplov Bhandari (biplov@adpc.net)
+                <br/><span class="mat-caption">Asian Disaster Preparedness Center (ADPC), Thailand</span>
+              </p> <br/>
+              <h3>Special Thanks to AST:</h3>
+              <p class="mat-caption product-team-name">Hyongki Lee,
+                <span class="mat-caption">University of Houston (UH), USA</span>
+              </p>
+            </div>
+          </div>
+        </mat-grid-tile>
 
+        <mat-grid-tile [colspan]="1">
+            <img src="/assets/images/usaid.png" style="height:50px;">
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <img src="/assets/images/nasa.png" style="height:50px;">
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <img src="/assets/images/adpc.png" style="height:50px;">
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <img src="/assets/images/sei.png" style="height:50px;">
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <img src="/assets/images/sig.png" style="height:40px;">
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <img src="/assets/images/uh.png" style="height:50px;">
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-card-content>
 </mat-card>

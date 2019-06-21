@@ -1,25 +1,31 @@
-.about-content{
-  height: 87.5vh;
+.about-content {
   margin: auto;
+  margin-top: 20px;
+  margin-bottom: 50px;
   width: 70%;
   align-items: center;
 }
-.headertitle{
+
+.headertitle {
   font-size: 50px;
   font-weight: 500;
 }
-.headline-text{
+
+.headline-text {
   font-size: 30px;
   font-weight: 500;
 }
-.product-team-name{
+
+.product-team-name {
   font-weight: 550;
   font-size: 14px;
 }
+
 .padding10 {
   padding: 10px;
 }
-.special-name{
+
+.special-name {
   font-weight: 400;
   font-size: 14px;
   color: grey;

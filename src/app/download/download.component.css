@@ -1,0 +1,65 @@
+p{
+  margin: 0 0 0px;
+  font-size: 14px;
+  font-weight: 500;
+}
+a:hover{
+  color: #3f51b5;
+}
+mat-form-field {
+  margin-right: 12px;
+  font-size: 14px;
+  width: 400px;
+  padding-bottom: 10px;
+}
+mat-label{
+  font-size: 14px;
+}
+mat-radio-button{
+  padding: 20px;
+}
+.flex {
+   flex: 1 1 auto;
+   height: 80vh;
+}
+.scrollable {
+  overflow: auto;
+  box-sizing: border-box;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.download-content {
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 70%;
+  align-items: center;
+}
+.mat-raised-button{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.content-tab{
+  padding-top: 20px;
+  padding-bottom: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: #F4F6F6;
+  width:auto;
+}
+.button-row button{
+  margin: 10px;
+}
+.input-latlon{
+  width:200px;
+}
+.file-upload{
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.highcharts-data-table{
+    display: none;
+}

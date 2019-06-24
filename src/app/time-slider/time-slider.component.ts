@@ -122,7 +122,7 @@ export class TimeSliderComponent implements OnInit {
         SpatialReference,
         WMSLayer,
       ]) => {
-  
+
         const wmsBaseURL = this.geoserverURL + this.animationValue + '/wms';
         const dateString = date.getFullYear().toString() + ((date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + ((date.getDate()) >= 10 ? (date.getDate()) : '0' + (date.getDate()));
         esriConfig.request.corsEnabledServers.push(this.geoserverURL);
@@ -199,7 +199,7 @@ export class TimeSliderComponent implements OnInit {
       // Update at 30fps
       setTimeout(function() {
         requestAnimationFrame(frame);
-      }, 800 / 1);
+      }, 1500 / 1);
     };
 
     frame();

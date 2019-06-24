@@ -1,0 +1,147 @@
+<div class="download-container">
+  <mat-card class="flex">
+    <div class="scrollable">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h3>Download Data</h3>
+              <form [formGroup]="formDownload">
+              <mat-vertical-stepper [linear]="isLinear" #stepper>
+                <mat-step [stepControl]="firstFormGroup">
+                    <ng-template matStepLabel>Define Area</ng-template>
+                      <div class="content-tab">
+                        <mat-tab-group>
+                          <mat-tab label="Location Specific">
+                            <div style="padding:20px;width:70%;">
+                              <div formArrayName="locations">
+                                <div class="row">
+                                  <div class="col-md-12" *ngFor="let contact of locationFormGroup.controls; let i = index;">
+                                    <div [formGroupName]="i" class="row">
+                                      <div class="form-group col-md-2">
+                                        <p>Location{{i + 1}}:</p>
+                                      </div>
+                                      <div class="form-group col-md-1">
+                                        <p>Lat</p>
+                                      </div>
+                                      <div class="form-group col-md-3">
+
+                                        <input class="form-control" formControlName="lat" type="text" required>
+                                        <span class="text-danger" *ngIf="getlocationsFormGroup(i).controls['lat'].touched && getlocationsFormGroup(i).controls['lat'].hasError('required')">
+                                          required! </span>
+                                      </div>
+                                      <div class="form-group col-sm-1">
+                                        <p>Lon</p>
+                                      </div>
+                                      <div class="form-group col-md-3">
+
+                                        <input class="form-control" formControlName="lon" type="text" required>
+                                        <span class="text-danger" *ngIf="getlocationsFormGroup(i).controls['lon'].touched && getlocationsFormGroup(i).controls['lon'].hasError('required')">
+                                          required! </span>
+                                      </div>
+
+                                      <div class="form-group col-md-1">
+                                        <a class="btn" type="button" (click)="removeLocation(i)"> X </a>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <button mat-raised-button color="primary" (click)="addLocation()">+ Add Location(s)</button>
+                              </div>
+                            </div>
+
+                          </mat-tab>
+                          <mat-tab label="Area Specific">
+                            <div style="padding:20px;">
+                              <div class="form-group col-md-12">
+                                <p>Upload Area <i>(.shp or .json)</i></p>
+                              </div>
+                              <div class="form-group col-md-6">
+                                <input class="form-control"  type="file" accept=".json,.shp">
+                              </div>
+                            </div>
+
+                          </mat-tab>
+                        </mat-tab-group>
+                      
+                      </div>
+                      <!-- <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="1">Location Specific</mat-radio-button>
+                        <mat-radio-button value="2">Area Specific</mat-radio-button>
+                      </mat-radio-group> -->
+                    <div style="text-align: right;">
+                      <button mat-button matStepperNext>Next</button>
+                    </div>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup" >
+                    <ng-template matStepLabel>Data Source</ng-template>
+                    <div class="content-tab">
+                    <div>
+                      <mat-label><b>Data Source:</b></mat-label>
+                    </div>
+                    <mat-form-field>
+                      <mat-select placeholder="Data Source" formControlName="selectSource" (selectionChange)="dataSourceChange()" required>
+                        <mat-option *ngFor="let dataSource of dataSources" [value]="dataSource.value">{{ dataSource.viewValue }} <i>{{ dataSource.availability }}</i></mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <div>
+                      <mat-label> <b> Frequency: </b></mat-label>
+                    </div>
+                    <mat-form-field>
+                      <mat-select placeholder="Frequency" formControlName="selectFrequency" required>
+                          <mat-option *ngFor="let frequency of frequencyOption" [value]="frequency.value">{{ frequency.viewValue }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div>
+                      <mat-label> <b> Period: </b></mat-label>
+                    </div>
+                    <mat-form-field>
+                      <input matInput [min]="minDate" [max]="maxDate"  [matDatepicker]="picker1" placeholder="Start Date" formControlName="startDate">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" placeholder="End Date" formControlName="endDate">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                      <div>
+                        <mat-label> <b> Statistic: </b></mat-label>
+                      </div>
+                      <mat-form-field>
+                        <mat-select placeholder="Statistic" formControlName="selectStatistic" required>
+                          <mat-option *ngFor="let statistic of statisticOption" [value]="statistic.value">{{ statistic.viewValue }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div>
+                        <mat-label> <b> Format: </b></mat-label>
+                      </div>
+                      <mat-form-field>
+                        <mat-select placeholder="Format" formControlName="selectFormat" required>
+                          <mat-option *ngFor="let format of formatOption" [value]="format.value">{{ format.viewValue }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div class="button-row">
+                        <button mat-raised-button color="primary" (click)="download()">Download CSV</button>
+                        <button mat-raised-button color="basic">Show Graph</button>
+                      </div>
+                    </div>
+
+                    <div style="text-align: right;">
+                      <button mat-button matStepperPrevious>Back</button>
+                    </div>
+                </mat-step>
+              </mat-vertical-stepper>
+              </form>
+
+            </div>
+          </div>
+        </div>
+</div>
+</mat-card>
+</div>

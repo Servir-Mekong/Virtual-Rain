@@ -32,7 +32,8 @@
     "moment": "^2.22.2",
     "rxjs": "^6.2.0",
     "rxjs-compat": "^6.2.0",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "bootstrap": "^3.4.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.3",

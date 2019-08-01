@@ -199,7 +199,7 @@ export class TimeSliderComponent implements OnInit {
       // Update at 30fps
       setTimeout(function() {
         requestAnimationFrame(frame);
-      }, 800 / 1);
+      }, 1500 / 1);
     };
 
     frame();

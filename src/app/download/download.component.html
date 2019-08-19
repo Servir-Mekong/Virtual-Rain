@@ -1,117 +1,111 @@
-<div class="download-container">
-  <mat-card class="flex">
-    <div class="scrollable">
-      <h3 style="padding-left:30px;">Download Data</h3>
-      <form [formGroup]="formDownload">
-      <mat-vertical-stepper [linear]="isLinear" #stepper>
-        <mat-step [stepControl]="firstFormGroup">
-            <ng-template matStepLabel>Define Area</ng-template>
-              <div class="content-tab">
-                <mat-tab-group>
-                  <mat-tab label="Location Specific">
-                    <div style="padding:20px;width:70%;">
-                      <div formArrayName="locations">
-                          <div *ngFor="let contact of locationFormGroup.controls; let i = index;">
-                            <div [formGroupName]="i">
-                              <table class="example-full-width" cellspacing="0"><tr>
-                                <td style="padding-right:15px;">Location{{i + 1}}:</td>
-                                <td><mat-form-field class="input-latlon">
-                                  <input matInput placeholder="Latitude" formControlName="lat">
-                                </mat-form-field></td>
-                                <td><mat-form-field class="input-latlon">
-                                  <input matInput placeholder="Longitude" formControlName="lon">
-                                </mat-form-field></td>
-                                <td><a (click)="removeLocation()">X</a></td>
-                              </tr></table>
+
+<mat-card class="download-content">
+    <h3 style="padding-left:30px;">Download Data</h3>
+    <form [formGroup]="formDownload" #downloadform="ngForm">
+        <mat-vertical-stepper [linear]="isLinear" #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <ng-template matStepLabel>Define Area</ng-template>
+                <div class="content-tab">
+                    <mat-tab-group>
+                        <mat-tab label="Location Specific">
+                            <div style="padding:20px;width:70%;">
+                                <div formArrayName="locations">
+                                    <div *ngFor="let contact of locationFormGroup.controls; let i = index;">
+                                        <div [formGroupName]="i">
+                                            <table class="example-full-width" cellspacing="0"><tr>
+                                                <td style="padding-right:15px;">Location{{i + 1}}:</td>
+                                                <td><mat-form-field class="input-latlon">
+                                                    <input matInput placeholder="Latitude" formControlName="lat">
+                                                </mat-form-field></td>
+                                                <td><mat-form-field class="input-latlon">
+                                                    <input matInput placeholder="Longitude" formControlName="lon">
+                                                </mat-form-field></td>
+                                                <td><a (click)="removeLocation()">X</a></td>
+                                            </tr></table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button mat-raised-button color="primary" (click)="addLocation()">+ Add Location(s)</button>
+                                </div>
                             </div>
-                          </div>
-                      </div>
-                      <div>
-                        <button mat-raised-button color="primary" (click)="addLocation()">+ Add Location(s)</button>
-                      </div>
-                    </div>
-                  </mat-tab>
-                  <mat-tab label="Area Specific">
-                    <div style="padding:20px;">
-                      <div class="form-group">
-                        <p>Upload Area <i>(.shp or .json)</i></p>
-                      </div>
-                      <div class="form-group">
-                        <input class="form-control file-upload" type="file" accept=".json,.shp">
-                      </div>
-                    </div>
-                  </mat-tab>
-                </mat-tab-group>
-              </div>
-              <!-- <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="1">Location Specific</mat-radio-button>
-                <mat-radio-button value="2">Area Specific</mat-radio-button>
-              </mat-radio-group> -->
-            <div style="text-align: right;">
-              <button mat-button matStepperNext>Next</button>
-            </div>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup" >
-            <ng-template matStepLabel>Data Source</ng-template>
-            <div class="content-tab">
-            <div>
-              <mat-label><b>Data Source:</b></mat-label>
-            </div>
-            <mat-form-field>
-              <mat-select placeholder="Data Source" formControlName="selectSource" (selectionChange)="dataSourceChange()" required>
-                <mat-option *ngFor="let dataSource of dataSources" [value]="dataSource.value">{{ dataSource.viewValue }} <i>{{ dataSource.availability }}</i></mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div>
-              <mat-label> <b> Frequency: </b></mat-label>
-            </div>
-            <mat-form-field>
-              <mat-select placeholder="Frequency" formControlName="selectFrequency" required>
-                  <mat-option *ngFor="let frequency of frequencyOption" [value]="frequency.value">{{ frequency.viewValue }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div>
-              <mat-label> <b> Period: </b></mat-label>
-            </div>
-            <mat-form-field>
-              <input matInput [min]="minDate" [max]="maxDate"  [matDatepicker]="picker1" placeholder="Start Date" formControlName="startDate">
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
+                        </mat-tab>
+                        <!-- <mat-tab label="Area Specific" disabled>
+                            <div style="padding:20px;">
+                                <div class="form-group">
+                                    <p>Upload Area <i>(.shp or .json)</i></p>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control file-upload" type="file" accept=".json,.shp">
+                                </div>
+                            </div>
+                        </mat-tab> -->
+                    </mat-tab-group>
+                </div>
 
-            <mat-form-field>
-              <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" placeholder="End Date" formControlName="endDate">
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
-              <div>
-                <mat-label> <b> Statistic: </b></mat-label>
-              </div>
-              <mat-form-field>
-                <mat-select placeholder="Statistic" formControlName="selectStatistic" required>
-                  <mat-option *ngFor="let statistic of statisticOption" [value]="statistic.value">{{ statistic.viewValue }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <div>
-                <mat-label> <b> Format: </b></mat-label>
-              </div>
-              <mat-form-field>
-                <mat-select placeholder="Format" formControlName="selectFormat" required>
-                  <mat-option *ngFor="let format of formatOption" [value]="format.value">{{ format.viewValue }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <div class="button-row">
-                <button mat-raised-button color="primary" (click)="download()">Download CSV</button>
-                <button mat-raised-button color="basic">Show Graph</button>
-              </div>
-            </div>
-            <div style="text-align: right;">
-              <button mat-button matStepperPrevious>Back</button>
-            </div>
-        </mat-step>
-      </mat-vertical-stepper>
-      </form>
+                <div style="text-align: right;">
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup" >
+                <ng-template matStepLabel>Data Source</ng-template>
+                <div class="content-tab">
+                    <div>
+                        <mat-label><b>Data Source:</b></mat-label>
+                    </div>
+                    <mat-form-field>
+                        <mat-select placeholder="Data Source" formControlName="selectSource" [(ngModel)]="selectedSource" (selectionChange)="dataSourceChange()" required>
+                            <mat-option *ngFor="let dataSource of dataSources" [value]="dataSource.value" [disabled]="dataSource.disabled">{{ dataSource.viewValue }} <i>{{ dataSource.availability }}</i></mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div>
+                        <mat-label> <b> Frequency: </b></mat-label>
+                    </div>
+                    <mat-form-field>
+                        <mat-select placeholder="Frequency" formControlName="selectFrequency" [(ngModel)]="selectedFrequency" required>
+                            <mat-option *ngFor="let frequency of frequencyOption" [value]="frequency.value" [disabled]="frequency.disabled">{{ frequency.viewValue }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div>
+                        <mat-label> <b> Period: </b></mat-label>
+                    </div>
+                    <mat-form-field>
+                        <input matInput [min]="minDate" [max]="maxDate"  [matDatepicker]="picker1" placeholder="Start Date" [(ngModel)]="selectedStartDate" formControlName="startDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
 
-</div>
+                    <mat-form-field>
+                        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker2" placeholder="End Date" [(ngModel)]="selectedEndDate" formControlName="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                    <div>
+                        <mat-label> <b> Statistic: </b></mat-label>
+                    </div>
+                    <mat-form-field>
+                        <mat-select placeholder="Statistic" formControlName="selectStatistic" [(ngModel)]="selectedStatistic" required>
+                            <mat-option *ngFor="let statistic of statisticOption" [value]="statistic.value" [disabled]="statistic.disabled">{{ statistic.viewValue }} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <div>
+                        <mat-label> <b> Format: </b></mat-label>
+                    </div>
+                    <mat-form-field>
+                        <mat-select placeholder="Format" formControlName="selectFormat" [(ngModel)]="selectedFormat"  required>
+                            <mat-option *ngFor="let format of formatOption" [value]="format.value" [disabled]="format.disabled">{{ format.viewValue }}</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <div class="button-row">
+                        <button mat-raised-button color="primary" (click)="openChart()" [disabled]="!downloadform.valid || !btn_chart">Show Graph <mat-icon>insert_chart</mat-icon></button>
+                        <mat-spinner style="display: inline;" [diameter]="30" *ngIf="!showSpinner"></mat-spinner>
+                        <!-- <button mat-raised-button color="basic" (click)="openChart()" [disabled]="!downloadform.valid">Show Graph</button> -->
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <button mat-button matStepperPrevious>Back</button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </form>
 </mat-card>
-</div>

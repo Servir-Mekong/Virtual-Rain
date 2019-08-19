@@ -52,6 +52,7 @@ import { VirtualStreamGaugeComponent } from './virtual-stream-gauge/virtual-stre
 import { DrawToolbarComponent } from './draw-toolbar/draw-toolbar.component';
 //import { MapService } from './services/map.service';
 import { ApiService } from './services/api.service';
+import { DownloadApiService } from './services/download-api.service';
 import { MessageService } from './services/message.service';
 import { HttpErrorHandler } from './services/http-error-handler.service';
 import { TimeSliderComponent } from './time-slider/time-slider.component';
@@ -126,6 +127,7 @@ const appRoutes: Routes = [
    providers: [
       //MapService
       ApiService,
+      DownloadApiService,
       MessageService,
       HttpErrorHandler
    ],

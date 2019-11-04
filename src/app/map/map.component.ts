@@ -67,6 +67,10 @@ export class MapComponent implements OnInit {
         zoom: this._zoom,
         map: this.map
       });
+      this.mapView.constraints = {
+        minZoom: 5,
+        maxZoom: 15
+      };
       this.mapView.ui.move(['zoom'], 'top-right');
       this.mapView$.next(this.mapView);
 

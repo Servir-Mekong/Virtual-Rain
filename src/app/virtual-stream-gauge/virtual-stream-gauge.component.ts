@@ -186,6 +186,11 @@ export class VirtualStreamGaugeComponent implements OnInit, OnChanges {
             visible: true
           },
           {
+              fieldName: 'VSG_Name',
+              label: 'VSG Name',
+              visible: true
+          },
+          {
             fieldName: 'Country',
             label: 'Country',
             visible: true

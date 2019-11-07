@@ -1,6 +1,7 @@
 .about-content {
-  height: 87.5vh;
   margin: auto;
+  margin-top: 20px;
+  margin-bottom: 50px;
   width: 70%;
   align-items: center;
 }

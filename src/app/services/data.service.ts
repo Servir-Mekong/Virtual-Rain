@@ -79,6 +79,65 @@ export class DataService {
     this.dialogContentOptions$.next(contentOptions);
   };
 
+  setDialogContentOptions2 = (chartTitle: string, yAxisTitle: string, chartData) => {
+    const contentOptions = {
+    chart: {
+        style: {
+            fontFamily: 'Arial'
+        }
+    },
+      xAxis: {
+        type: 'datetime',
+        dateTimeLabelFormats: {
+            day: "%e-%b-%y",
+    	    month: "%b-%y"
+        }
+      },
+      yAxis: {
+        title: {
+          text: yAxisTitle
+        }
+      },
+      rangeSelector: {
+          selected: 1
+      },
+      title: {
+        text: chartTitle
+      },
+
+      series: chartData,
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        showTable: true,
+        csv: {
+            dateFormat: '%Y-%m-%d'
+        },
+        buttons: {
+          contextButton: {
+            menuItems: [
+                "printChart",
+                "separator",
+                "downloadPNG",
+                "downloadJPEG",
+                "downloadPDF",
+                "downloadSVG",
+                "separator",
+                "downloadCSV",
+                "downloadXLS",
+                //"viewData",
+                //"openInCloud"
+            ]
+          }
+        }
+      }
+    };
+
+    this.dialogContentOptions$.next(contentOptions);
+  };
+
+
   changeAnimationValue = (value: string) => {
     this.animationValue$.next(value);
   };

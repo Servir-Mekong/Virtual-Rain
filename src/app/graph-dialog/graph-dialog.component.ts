@@ -36,6 +36,33 @@ export class GraphDialogComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit () {
     this.chart = chart(this.graphDialogContentEl.nativeElement, this.chartOptions);
-  }
+    // Apply styles inline because stylesheets are not passed to the exported SVG
+    let tableClass = document.querySelector('.highcharts-data-table');
+    if(tableClass instanceof HTMLElement){
+      tableClass.style.fontSize = '14px';
+    }
+    let tableElement = document.querySelector('.highcharts-data-table table');
+    if(tableElement instanceof HTMLElement){
+      tableElement.style.fontFamily = 'Arial';
+      tableElement.style.borderSpacing = '0';
+      tableElement.style.minWidth = '100%';
+      tableElement.style.borderCollapse = 'collapse';
+      tableElement.style.background = 'white';
+      tableElement.style.color = '#333333';
+    }
+    [].forEach.call(document.querySelectorAll('.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption'), function (el, i) {
+          el.style.border = '1px solid silver';
+          el.style.padding = '5px';
+      });
+    [].forEach.call(document.querySelectorAll('caption'), function (el, i) {
+          el.style.fontWeight = 'bold';
+          el.style.borderBottom = 'none';
+      });
+    [].forEach.call(document.querySelectorAll('caption, tr'), function (el, i) {
+          if (i % 2) {
+              el.style.background = '#f8f8f8';
+          }
+      });
+    }
 
-}
+ }

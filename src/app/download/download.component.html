@@ -2,8 +2,8 @@
 <mat-card class="download-content">
     <h3 style="padding-left:30px;">Download Data</h3>
     <form [formGroup]="formDownload" #downloadform="ngForm">
-        <mat-vertical-stepper [linear]="isLinear" #stepper>
-            <mat-step [stepControl]="firstFormGroup">
+        <mat-vertical-stepper linear #stepper>
+            <mat-step>
                 <ng-template matStepLabel>Define Area</ng-template>
                 <div class="content-tab">
                     <mat-tab-group>
@@ -47,7 +47,7 @@
                     <button mat-button matStepperNext>Next</button>
                 </div>
             </mat-step>
-            <mat-step [stepControl]="secondFormGroup" >
+            <mat-step>
                 <ng-template matStepLabel>Data Source</ng-template>
                 <div class="content-tab">
                     <div>

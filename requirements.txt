@@ -24,7 +24,7 @@ djangorestframework==3.8.2
 easy-thumbnails==2.4.2
 html5lib==0.9999999
 Markdown==2.6.11
-numpy==1.15.1
+numpy==1.22.0
 olefile==0.45.1
 pandas==0.23.4
 Pillow==4.2.1
